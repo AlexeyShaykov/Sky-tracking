@@ -2,7 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 
-import Home from './Home'
+import { Home } from './screens/home'
 
  import './index.css'
 
