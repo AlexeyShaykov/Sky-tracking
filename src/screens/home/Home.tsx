@@ -1,5 +1,12 @@
+import { FlightList } from '@/components/flight-list'
+
+import { FlightDetails } from '@/components/flight-details/FlightDetails'
+
 export const Home = () => {
   return (
-    <h1>Home page</h1>
+    <div>
+      <FlightList />
+      <FlightDetails />
+    </div>
   )
 }

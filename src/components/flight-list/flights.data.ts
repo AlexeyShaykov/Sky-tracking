@@ -1,4 +1,4 @@
-import type { IFlight } from './flight.types';
+import type { IFlight } from '@/types/flights.types';
 
 export const FLIGHTS: IFlight[] = [
   {

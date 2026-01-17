@@ -1,5 +1,19 @@
+import type { IFlight } from '@/types/flights.types';
+import { FLIGHTS } from './flights.data';
+import { FlightCard } from './FlightCard';
+
 export const FlightList = () => {
   return (
-    <div>Flight List Component</div>
+    <div
+      className="w-sm m-7 space-y-4"
+    >
+      {
+        FLIGHTS.map((flight: IFlight) => {
+          return (
+            <FlightCard flight={flight} key={flight.airline} />
+          )
+        })
+      }
+    </div>
   )
 };
