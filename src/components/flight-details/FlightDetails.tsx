@@ -3,51 +3,41 @@ import { useMemo } from 'react';
 
 import { QUERY_PARAM_FLIGHT } from '../flight-list/flight.constants';
 import { FLIGHTS } from '../flight-list/flights.data';
+import FlightHeader from './FlightHeader';
+import FlightImage from './FlightImage';
+import FlightInformation from './FlightInformation';
+import FlightRoute from './FlightRoute';
+import FlightStatus from './FlightStatus';
+import FlightSchedule from './FlightSchedule';
 
 export const FlightDetails = () => {
   const [searchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);
 
-  const flight =  useMemo(() => FLIGHTS.find(f => f.airline === selectedFlight), [selectedFlight])
+  const flight =  useMemo(() => FLIGHTS.find(f => f.id === selectedFlight), [selectedFlight])
 
   if (!flight) {
-    return <div>Please select a flight to see details.</div>;
+    return null;
   }
-
-  const {
-    airplane,
-    airline,
-    colorGradient
-  } = flight;
-
-  const {
-    image,
-    name,
-  } = airplane;
   
   return (
     <div
-      className="absolute right-7 w-sm top-7 bg-[#101010] rounded-xl"
-      style={{ height: 'calc(100% - 56px)' }}
+      className="absolute right-7 w-sm top-1/2 -translate-y-1/2 bg-[#101010] rounded-xl overflow-hidden"
+      // style={{ height: 'calc(100% - 56px)' }}
     >
-     {airline}
-     <div
-      className="w-full h-60"
-      style={{
-        background: `linear-gradient(to top, ${colorGradient[0]}, ${colorGradient[1]})`,
-      }}
-     >
-      <img 
-        src={image}
-        alt={name}
-        className="max-w-full h-auto"
-      />
-     </div>
-     <div>
-      <img 
+     <FlightHeader flight={flight} />
+     <FlightImage flight={flight} />
 
-      />
+     <div
+      className="p-3.5"
+     >
+      <FlightRoute flight={flight} />
+      <FlightStatus />
+      <FlightSchedule />
+      
+      <FlightInformation flight={flight} />
      </div>
+
     </div>
   )
 };

@@ -10,7 +10,7 @@ export const FlightList = () => {
       {
         FLIGHTS.map((flight: IFlight) => {
           return (
-            <FlightCard flight={flight} key={flight.airline} />
+            <FlightCard flight={flight} key={flight.id} />
           )
         })
       }

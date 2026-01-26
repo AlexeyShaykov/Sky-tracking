@@ -6,12 +6,12 @@ import { cn } from '@/utils/cn';
 import { QUERY_PARAM_FLIGHT } from './flight.constants';
 
 export const FlightCard = ({ flight }: { flight: IFlight }) => {
-  const { logo, airline, from, to, aircraftReg } = flight;
+  const { logo, id, from, to, aircraftReg } = flight;
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);
   
-  const isSelected = selectedFlight === airline;
+  const isSelected = selectedFlight === id;
 
   const { city: fromCity, code: fromCode } = from;
   const { city: toCity, code: toCode } = to;
@@ -30,19 +30,19 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
           'bg-neutral-900 rounded-lg p-5 block w-full',
         )}
         onClick={() => {
-          setSearchParams({ [QUERY_PARAM_FLIGHT]: airline });
+          setSearchParams({ [QUERY_PARAM_FLIGHT]: id });
         }}
       >
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-3">
             <img
               src={logo}
-              alt={airline}
+              alt={id}
               width={40}
               height={40}
               className="rounded-full bg-white"
             />
-            <span>{airline}</span>
+            <span>{id}</span>
           </div>
           <div>
             <span className="bg-neutral-500 rounded-xl px-2 py-1">

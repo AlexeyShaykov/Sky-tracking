@@ -16,9 +16,15 @@ export interface IRoute {
   altitude: number; // in meters
 }
 
+export interface IFlightAirline {
+  name: string;
+  country: string;
+} 
+
 export interface IFlight {
+  id: string;
   logo: string;
-  airline: string;
+  airline: IFlightAirline;
   aircraftReg: string;
   from: ILocation;
   to: ILocation;
