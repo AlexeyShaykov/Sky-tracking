@@ -9,6 +9,7 @@ import FlightInformation from './FlightInformation';
 import FlightRoute from './FlightRoute';
 import FlightStatus from './FlightStatus';
 import FlightSchedule from './FlightSchedule';
+import FlightActions from './FlightActions';
 
 export const FlightDetails = () => {
   const [searchParams] = useSearchParams();
@@ -36,6 +37,13 @@ export const FlightDetails = () => {
       <FlightSchedule />
       
       <FlightInformation flight={flight} />
+
+      <FlightActions 
+        onRoute={() => {}}
+        onFollow={() => {}}
+        onShare={() => {}}
+        onMore={() => {}}
+      />
      </div>
 
     </div>

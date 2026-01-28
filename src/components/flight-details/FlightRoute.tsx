@@ -24,7 +24,7 @@ const FlightRoute = ({
   } = to;
 
   return (
-    <div className="grid grid-cols-2 gap-1 mb-1 relative">
+		<div className="grid grid-cols-2 gap-1 mb-1 relative">
 			<div className="bg-card px-element py-element rounded-tl-xl text-center">
 				<h3 className="text-white text-4xl font-semibold mb-1.5">
 					{fromCode}
@@ -56,7 +56,7 @@ const FlightRoute = ({
 				</p>
 			</div>
 		</div>
-  )
+	)
 };
 
 export default FlightRoute;
