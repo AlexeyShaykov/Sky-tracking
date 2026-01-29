@@ -1,14 +1,13 @@
 import { Outlet } from 'react-router'
-
-import ThemeToggle from './ThemeToggle/ThemeToggle'
+import Header from './header/Header'
 
 export const Layout = () => {
   return (
     <div
       className="relative p-7"
     >
+      <Header /> 
       <Outlet />
-      <ThemeToggle />
     </div>
   )
 }
