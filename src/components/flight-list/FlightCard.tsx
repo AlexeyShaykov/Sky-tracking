@@ -52,7 +52,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="space-y-0.5">
+          <div className="space-y-0.5 text-left">
             <div>{fromCity}</div>
             <div className="font-semibold text-3xl">{fromCode}</div>
           </div>
