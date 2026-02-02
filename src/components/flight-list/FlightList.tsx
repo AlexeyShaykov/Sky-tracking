@@ -5,7 +5,7 @@ import { FlightCard } from './FlightCard';
 export const FlightList = () => {
   return (
     <div
-      className="w-sm m-7 space-y-4"
+      className="w-sm space-y-4"
     >
       {
         FLIGHTS.map((flight: IFlight) => {

@@ -1,25 +1,28 @@
-import { cn } from '@/utils/cn';
-import { Link } from 'react-router';
+import { Link } from 'react-router'
 
-type HeaderMenuItemProps = {
-  title: string;
-  link: string;
-  isActive?: boolean;
-};
+import { cn } from '@/lib/utils'
 
-const HeaderMenuItem = ({ title, link, isActive }: HeaderMenuItemProps) => {
-  return (
-    <li>
-      <Link
-        to={link}
-        className={cn(
-          isActive ? 'opacity-100' : 'opacity-70 hover:opacity-100'
-        )}
-      >
-        {title}
-      </Link>
-     </li>
-  );
-};
+import type { IHeaderMenuItem } from './header-menu.data'
 
-export default HeaderMenuItem;
+interface Props {
+	item: IHeaderMenuItem
+	isActive?: boolean
+}
+
+const HeaderMenuItem = ({ item, isActive }: Props) => {
+	return (
+		<li>
+			<Link
+				to={item.href}
+				className={cn(
+					'text-lg transition-opacity hover:opacity-90 sm:text-base',
+					isActive ? 'opacity-100' : 'opacity-70'
+				)}
+			>
+				{item.label}
+			</Link>
+		</li>
+	)
+}
+
+export default HeaderMenuItem

@@ -23,8 +23,7 @@ export const FlightDetails = () => {
   
   return (
     <div
-      className="absolute right-7 w-sm top-1/2 -translate-y-1/2 bg-[#101010] rounded-xl overflow-hidden"
-      // style={{ height: 'calc(100% - 56px)' }}
+      className="absolute right-7 w-sm top-7  bg-[#101010] rounded-xl overflow-hidden"
     >
      <FlightHeader flight={flight} />
      <FlightImage flight={flight} />

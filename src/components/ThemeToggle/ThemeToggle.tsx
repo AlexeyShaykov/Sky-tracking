@@ -8,10 +8,12 @@ const ThemeToggle = () => {
   
   return (
     <div
-      className="absolute top-7 left-1/2 -translate-x-1/2 z-50"
+      className=""
     >
       <button
-        className="p-2 rounded-full bg-card hover:bg-neutral-700 transition-colors flex items-center justify-center"
+        className="p-2 rounded-full 
+        bg-card hover:bg-neutral-700 
+        transition-colors flex items-center justify-center sm:p-1"
         onClick={toggleTheme}
       >
         {
