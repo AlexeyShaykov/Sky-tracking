@@ -4,6 +4,7 @@ import type { IFlight } from '@/types/flights.types';
 import { cn } from '@/utils/cn';
 
 import { QUERY_PARAM_FLIGHT } from './flight.constants';
+import FlightCardActions from './actions/FlightCardActions';
 
 export const FlightCard = ({ flight }: { flight: IFlight }) => {
   const { logo, id, from, to, aircraftReg } = flight;
@@ -19,12 +20,13 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
   return (
     <div
       className={cn(
-        'w-full rounded-lg p-0.5 transition-colors ease-in',
+        'w-full rounded-lg p-0.5 transition-colors ease-in relative group',
         isSelected
           ? 'bg-linear-to-r from-rose-500 to-orange-400 '
           : 'bg-transparent'
       )}
     >
+      <FlightCardActions />
       <button
         className={cn(
           'bg-neutral-900 rounded-lg p-5 block w-full',
@@ -52,7 +54,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="space-y-0.5 text-left">
+          <div className="space-y-0.5 text-left ">
             <div>{fromCity}</div>
             <div className="font-semibold text-3xl">{fromCode}</div>
           </div>

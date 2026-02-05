@@ -6,12 +6,13 @@ import { Heart } from '../animate-ui/icons/heart'
 
 import HeaderMenuItem from './HeaderMenuItem'
 import { headerMenuData } from './header-menu.data'
+import { Button } from '../animate-ui/components/buttons/button';
 
 const Header = () => {
 	const location = useLocation()
 
 	return (
-		<div className='bg-card p-mini-element sm:px-mini-element absolute top-7 left-1/2 flex w-1/2 -translate-x-1/2 items-center justify-between rounded-xl px-5 sm:rounded-lg lg:relative lg:top-0 lg:mb-5 lg:w-full'>
+		<div className='bg-card p-2 sm:px-mini-element absolute top-7 left-1/2 flex w-4/12 -translate-x-1/2 items-center justify-between rounded-xl px-5 sm:rounded-lg lg:relative lg:top-0 lg:mb-5 lg:w-full'>
 			<div className='flex items-center gap-4 sm:gap-2'>
 				<img
 					src='/logo.svg'
@@ -32,12 +33,18 @@ const Header = () => {
 			</div>
 			<div className='flex items-center gap-3 sm:gap-2'>
 				{/* TODO: Config */}
-				<Link
-					to='/favorites'
-					className='bg-card flex items-center justify-center rounded-full p-2 transition-colors hover:bg-neutral-700 sm:p-1'
+				<Button 
+					asChild
+					variant='secondary'
+					size='icon'
 				>
-					<Heart size={23} animateOnHover />
-				</Link>
+					<Link
+						to='/favorites'
+					//  className='bg-card flex items-center justify-center rounded-full p-2 transition-colors hover:bg-neutral-700 sm:p-1'
+					>
+						<Heart size={23} animateOnHover />
+					</Link>
+				</Button>
 				<ThemeToggle />
 			</div>
 		</div>

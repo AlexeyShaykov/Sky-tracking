@@ -2,32 +2,35 @@ import useTheme from '@/providers/theme/useTheme';
 
 import { Sun } from '../animate-ui/icons/sun';
 import { Moon } from '../animate-ui/icons/moon';
+import { Button } from '../animate-ui/components/buttons/button';
 
 const ThemeToggle = () => {
   const { theme, toggleTheme } = useTheme();
-  
+
   return (
     <div
       className=""
     >
-      <button
-        className="p-2 rounded-full 
-        bg-card hover:bg-neutral-700 
-        transition-colors flex items-center justify-center sm:p-1"
+      <Button
+        type='button'
+        variant='secondary'
+        size='icon'
         onClick={toggleTheme}
       >
         {
           theme === 'dark' ? (
-            <Moon 
+            <Moon
               animateOnHover
+              size={23}
             />
           ) : (
-            <Sun 
+            <Sun
               animateOnHover
+              size={23}
             />
           )
         }
-      </button>
+      </Button>
     </div>
   )
 };
