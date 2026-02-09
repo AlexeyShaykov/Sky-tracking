@@ -26,7 +26,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
           : 'bg-transparent'
       )}
     >
-      <FlightCardActions />
+      <FlightCardActions flightId={id}  />
       <button
         className={cn(
           'bg-neutral-900 rounded-lg p-5 block w-full',

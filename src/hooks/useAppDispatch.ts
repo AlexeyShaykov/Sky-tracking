@@ -1,9 +1,7 @@
-import { useDispatch } from '@reduxjs/toolkit';
+import { useDispatch } from 'react-redux';
 
 import type { TAppDispatch } from '@/store';
 
-const useAppDispatch: () => TAppDispatch = () => {
-  return useDispatch<TAppDispatch>();
-};
+const useAppDispatch: () => TAppDispatch = useDispatch<TAppDispatch>; 
  
 export default useAppDispatch;

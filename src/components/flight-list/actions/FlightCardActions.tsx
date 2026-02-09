@@ -1,7 +1,28 @@
+import useAppDispatch from '@/hooks/useAppDispatch';
+import useAppSelector from '@/hooks/useAppSelector';
+
 import { Button } from '@/components/animate-ui/components/buttons/button';
 import { Heart } from '@/components/animate-ui/icons/heart';
 
-const FlightCardActions = () => {
+import { addFavorite, removeFavorite } from '@/store/favorites/favorites.slice';
+
+const FlightCardActions = ({
+  flightId,
+}: {
+  flightId: string;
+}) => {
+  const dispatch = useAppDispatch();
+  const favorites = useAppSelector((state) => state.favorites);
+  const isFavorite = favorites.includes(flightId);
+
+  const onToggleFavorite = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(flightId));
+    } else {
+      dispatch(addFavorite(flightId));
+    }
+  };
+
   return (
     <div
       className="absolute top-0.5 right-1 group-hover:-right-14 px-3 
@@ -12,8 +33,9 @@ const FlightCardActions = () => {
         type='button'
         variant='ghost'
         size='icon'
+        onClick={onToggleFavorite}
       >
-        <Heart className="size-5" animateOnHover />
+        <Heart fill={isFavorite ? 'var(--foreground)' : 'none'} className="size-5" animateOnHover />
       </Button>
     </div>
   );

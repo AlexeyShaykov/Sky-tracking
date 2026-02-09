@@ -13,36 +13,32 @@
    localStorage.setItem(LS_KEY_FAVORITES, JSON.stringify(favorites));
  };
 
- export type FavoritesState = {
-    favorites: string[];
- }
+ export type FavoritesState = string[];
 
- const initialState: FavoritesState = {
-   favorites: loadFavorites(),
- };
-
+ const initialState: FavoritesState = loadFavorites();
+ 
  const favoritesSlice = createSlice({
    name: 'favorites',
    initialState,
    reducers: {
      addFavorite: (state, action: PayloadAction<string>) => {
-      if (state.favorites.includes(action.payload)) return state; 
+      if (state.includes(action.payload)) return state; 
 
-       const newFavorites = [...state.favorites, action.payload];
+       const newFavorites = [...state, action.payload];
        saveFavorites(newFavorites);
-       return { favorites: newFavorites };
+       return newFavorites;
      },
      removeFavorite: (state, action: PayloadAction<string>) => {
-       const filteredFavorites = state.favorites.filter((id) => id !== action.payload);
+       const filteredFavorites = state.filter((id) => id !== action.payload);
        saveFavorites(filteredFavorites);
-       return { favorites: filteredFavorites };
+       return filteredFavorites;
      },
      clearFavorites: () => {
        saveFavorites([]);
-       return { favorites: [] };
+       return [];
      },
     },
   });
  
   export const { addFavorite, removeFavorite, clearFavorites } = favoritesSlice.actions;
-   export default favoritesSlice.reducer;
+  export default favoritesSlice.reducer;
