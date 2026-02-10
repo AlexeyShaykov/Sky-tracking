@@ -5,9 +5,10 @@ import { cn } from '@/utils/cn';
 
 import { QUERY_PARAM_FLIGHT } from './flight.constants';
 import FlightCardActions from './actions/FlightCardActions';
+import ProgressBar from '../custom-ui/ProgressBar';
 
 export const FlightCard = ({ flight }: { flight: IFlight }) => {
-  const { logo, id, from, to, aircraftReg } = flight;
+  const { logo, id, from, to, aircraftReg, progress } = flight;
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);
@@ -59,7 +60,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
             <div className="font-semibold text-3xl">{fromCode}</div>
           </div>
 
-          <div>{/* progressbar */}</div>
+          <ProgressBar progress={progress} />
 
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">

@@ -31,4 +31,5 @@ export interface IFlight {
   airplane: IAirplane;
   colorGradient: string[];
   route: IRoute;
+  progress: number;
 }
