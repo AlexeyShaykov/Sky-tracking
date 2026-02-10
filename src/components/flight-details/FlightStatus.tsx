@@ -1,7 +1,13 @@
-const FlightStatus = () => {
+import ProgressBar from '../custom-ui/ProgressBar';
+
+const FlightStatus = ({
+	progress
+}: {
+	progress: number
+}) => {
   return (
-    <div className="bg-card px-element py-element mb-1">
-			{/* PROGRESS BAR */}
+    <div className="bg-card p-element mb-1 flex flex-col gap-4">
+			 <ProgressBar progress={progress} />
 
 			<div className="flex justify-between text-sm opacity-50">
 				<div>

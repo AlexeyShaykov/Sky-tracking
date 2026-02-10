@@ -21,9 +21,9 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
   return (
     <div
       className={cn(
-        'w-full rounded-lg p-0.5 transition-colors ease-in relative group',
+        'w-full rounded-lg p-0.5 transition-colors ease-in relative group animate-fade-in',
         isSelected
-          ? 'bg-linear-to-r from-rose-500 to-orange-400 '
+          ? 'bg-linear-to-r from-rose-500 to-orange-400'
           : 'bg-transparent'
       )}
     >
@@ -54,7 +54,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="grid grid-cols-[auto_1fr_auto] gap-5 items-center">
           <div className="space-y-0.5 text-left ">
             <div>{fromCity}</div>
             <div className="font-semibold text-3xl">{fromCode}</div>
