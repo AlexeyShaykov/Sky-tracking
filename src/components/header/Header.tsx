@@ -12,8 +12,8 @@ const Header = () => {
 	const location = useLocation()
 
 	return (
-		<div className='bg-card p-2 sm:px-mini-element absolute top-7 left-1/2 flex w-4/12 -translate-x-1/2 items-center justify-between rounded-xl px-5 sm:rounded-lg lg:relative lg:top-0 lg:mb-5 lg:w-full'>
-			<div className='flex items-center gap-4 sm:gap-2'>
+		<div className='xs:flex-col xs:pb-4 bg-card p-2 sm:px-mini-element absolute top-7 left-1/2 flex w-4/12 -translate-x-1/2 items-center justify-between rounded-xl px-5 sm:rounded-lg lg:relative lg:top-0 lg:mb-5 lg:w-full'>
+			<div className='xs:flex-wrap xs:justify-center flex items-center gap-4 sm:gap-2'>
 				<img
 					src='/logo.svg'
 					alt='Sky Track Logo'
@@ -31,7 +31,7 @@ const Header = () => {
 					</ul>
 				</nav>
 			</div>
-			<div className='flex items-center gap-3 sm:gap-2'>
+			<div className='xs:mt-2 flex items-center gap-3 sm:gap-2'>
 				{/* TODO: Config */}
 				<Button 
 					asChild

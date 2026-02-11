@@ -49,6 +49,10 @@
 	--sidebar-ring: rgba(255, 255, 255, 0.87);
 }
 
+html {
+	@apply xs:text-sm md:text-[0.92rem] text-base;
+}
+
 body {
 	margin: 0;
 	min-width: 320px;

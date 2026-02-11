@@ -4,7 +4,7 @@ import Header from './header/Header'
 export const Layout = () => {
   return (
     <div
-      className="relative p-7"
+      className="xs:p-3 relative p-7"
     >
       <Header /> 
       <Outlet />

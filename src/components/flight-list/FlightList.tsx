@@ -42,7 +42,7 @@ export const FlightList = () => {
   }, []);
 
   return (
-    <div className="w-sm">
+    <div className="xs:w-full md:w-xs w-sm">
       <Filters
         fromCountry={fromCountry}
         setFromCountry={setFromCountry}

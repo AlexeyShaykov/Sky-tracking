@@ -17,7 +17,7 @@ const FlightImage = ({
 
   return (
     <div
-    className="w-full h-72 pt-28"
+    className="xs:h-56 xs:pt-21 w-full h-72 pt-28"
     style={{
       background: `linear-gradient(to top, ${colorGradient[0]}, ${colorGradient[1]})`
     }}
