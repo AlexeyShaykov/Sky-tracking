@@ -165,5 +165,38 @@ export const FLIGHTS: IFlight[] = [
       altitude: 11300
     },
     progress: 30
+  },
+  {
+    logo: '/logos/lufthansa.svg',
+    id: 'AF128',
+    aircraftReg: 'F-GZCP',
+    airline: {
+      name: 'Lufthansa',
+      country: 'Germany'
+    },
+    from: {
+      city: 'Madrid',
+      country: 'Spain',
+      countryCode: 'ES',
+      timezone: 'UTC +1',
+      code: 'MAD'
+    },
+    to: {
+      city: 'Rome',
+      country: 'Italy',
+      countryCode: 'IT',
+      timezone: 'UTC +2',
+      code: 'FCO'
+    },
+    airplane: {
+      image: '/planes/lufthansa.png',
+      name: 'Airbus A350-900'
+    },
+    colorGradient: ['#f9d5d5', '#d36e6e'],
+    route: {
+      speed: 880,
+      altitude: 11000
+    },
+    progress: 80
   }
 ]

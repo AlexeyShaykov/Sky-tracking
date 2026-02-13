@@ -7,12 +7,16 @@ import SkeletonLoader from '../custom-ui/SkeletonLoader';
 
 export const FlightList = () => {
   const [fromCountry, setFromCountry] = useState<string | null>(null);
+  const [currentlySelectedAirline, setCurrentlySelectedAirline] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const filteredFlights = useMemo(() => {
-    if (!fromCountry) return FLIGHTS;
-    return FLIGHTS.filter((flight) => flight.from.country === fromCountry);
-  }, [fromCountry]);
+    return FLIGHTS.filter((flight) => {
+      const matchesFromCountry = fromCountry ? flight.from.country === fromCountry : true;
+      const matchesAirline = currentlySelectedAirline ? flight.airline.name === currentlySelectedAirline : true;
+      return matchesFromCountry && matchesAirline;
+    });
+  }, [fromCountry, currentlySelectedAirline]);
 
   const renderContent = () => {
     if (isLoading) {
@@ -46,6 +50,8 @@ export const FlightList = () => {
       <Filters
         fromCountry={fromCountry}
         setFromCountry={setFromCountry}
+        currentlySelectedAirline={currentlySelectedAirline}
+        setCurrentlySelectedAirline={setCurrentlySelectedAirline}
       />
       <div className="space-y-4">{renderContent()}</div>
     </div>
