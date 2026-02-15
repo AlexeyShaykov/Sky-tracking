@@ -8,7 +8,7 @@ const FlightInformation = ({ flight }: { flight: IFlight }) => {
 
   return (
     <div className="my-3.5">
-      <div className="font-medium mb-1 bg-[#282828] px-mini-element py-mini-element rounded-tl-xl rounded-tr-xl">
+      <div className="font-medium mb-1 bg-[#ddd] dark:bg-[#282828] px-mini-element py-mini-element rounded-tl-xl rounded-tr-xl">
         Flight information
       </div>
       <div className="grid grid-cols-2 gap-1 mb-1">

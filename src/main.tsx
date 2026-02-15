@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router';
 import { Provider } from 'react-redux';
+import { domAnimation, LazyMotion } from 'framer-motion';
 
 import { Home } from './screens/home';
 import { Layout } from './components/Layout';
@@ -17,24 +18,26 @@ createRoot(document.getElementById('root')!).render(
   // ! non-null assertion
   <StrictMode>
     <ThemeProvider>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route
-                path="/"
-                element={<Home />}
-              />
-              <Route element={<CenterLayout />}>
+      <LazyMotion features={domAnimation}>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
                 <Route
-                  path="/favorites"
-                  element={<Favorites />}
+                  path="/"
+                  element={<Home />}
                 />
+                <Route element={<CenterLayout />}>
+                  <Route
+                    path="/favorites"
+                    element={<Favorites />}
+                  />
+                </Route>
               </Route>
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </Provider>
+            </Routes>
+          </BrowserRouter>
+        </Provider>
+      </LazyMotion>
     </ThemeProvider>
   </StrictMode>
 );

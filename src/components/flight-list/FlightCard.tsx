@@ -30,7 +30,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
       <FlightCardActions flightId={id}  />
       <button
         className={cn(
-          'bg-neutral-900 rounded-lg p-5 block w-full',
+          'bg-flight-card rounded-lg p-5 block w-full',
         )}
         onClick={() => {
           setSearchParams({ [QUERY_PARAM_FLIGHT]: id });
@@ -48,7 +48,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
             <span>{id}</span>
           </div>
           <div>
-            <span className="bg-neutral-500 rounded-xl px-2 py-1">
+            <span className="bg-card rounded-xl px-2 py-1">
               {aircraftReg}
             </span>
           </div>

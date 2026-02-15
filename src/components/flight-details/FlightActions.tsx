@@ -20,14 +20,14 @@ const FlightActions = ({
 				<button
 					onClick={onRoute}
 					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element rounded-tl-2xl rounded-bl-2xl
-					transition-colors hover:bg-neutral-800"
+					transition-colors hover:bg-card/60"
 				>
 					<Route size={22} />
 					<span>Route</span>
 				</button>
 				<button
 					onClick={onFollow}
-					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element transition-colors hover:bg-neutral-800"
+					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element transition-colors hover:bg-card/60"
 				>
 					<MapPin
 						animateOnHover
@@ -37,7 +37,7 @@ const FlightActions = ({
 				</button>
 				<button
 					onClick={onShare}
-					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element transition-colors hover:bg-neutral-800"
+					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element transition-colors hover:bg-card/60"
 				>
 					<SquareArrowOutUpRight
 						animateOnHover
@@ -47,7 +47,7 @@ const FlightActions = ({
 				</button>
 				<button
 					onClick={onMore}
-					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element rounded-tr-2xl rounded-br-2xl transition-colors hover:bg-neutral-800"
+					className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element rounded-tr-2xl rounded-br-2xl transition-colors hover:bg-card/60"
 				>
 					<MoreHorizontal size={22} />
 					<span>More</span>

@@ -10,7 +10,7 @@ const ProgressBar = ({ progress }: { progress: number }) => {
         <Plane
           fill="white"
           strokeWidth={0}
-          className="rotate-45 absolute top-1/2 -right-1.5 -translate-y-1/2"
+          className="rotate-45 absolute top-1/2 -right-1.5 -translate-y-1/2 fill-foreground"
           style={{
             left: `calc(${progress}% - 0.5rem)`,
           }}

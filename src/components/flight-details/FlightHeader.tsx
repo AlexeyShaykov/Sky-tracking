@@ -16,14 +16,14 @@ const FlightHeader = ({ flight }: { flight: IFlight }) => {
 
   return (
     <div
-      className="bg-[#1a1a1a] rounded-xl px-6 py-4 flex items-center justify-between absolute top-3.5 left-1/2 -translate-x-1/2 w-11/12 h-max"
+      className="bg-card rounded-xl px-6 py-4 flex items-center justify-between absolute top-3.5 left-1/2 -translate-x-1/2 w-11/12 h-max"
     >
       <div>
         <h2 className="text-amber-400 text-xl font-medium">{id}</h2>
-        <p className="text-gray-300 text-sm">{name}</p>
+        <p className="text-foreground/60 text-sm">{name}</p>
       </div>
       <button 
-        className="text-gray-400 hover:text-white transition-colors rounded-full p-1 bg-neutral-700"
+        className="text-foreground/60 hover:text-foreground transition-colors rounded-full p-1 bg-popover"
         onClick={() => {
           searchParams.delete(QUERY_PARAM_FLIGHT);
           setSearchParams(searchParams); 
