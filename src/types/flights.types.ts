@@ -1,4 +1,9 @@
-export interface ILocation {
+interface ICoordinates {
+  longitude: number;
+  latitude: number;
+}
+
+export interface ILocation extends ICoordinates {
   city: string;
   country: string;
   countryCode: string;
@@ -11,7 +16,7 @@ export interface IAirplane {
   name: string;
 }
 
-export interface IRoute {
+export interface IRoute extends ICoordinates {
   speed: number; // in km/h
   altitude: number; // in meters
 }
