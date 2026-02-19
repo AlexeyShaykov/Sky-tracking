@@ -84,7 +84,7 @@ export const FLIGHTS: IFlight[] = [
     route: {
       speed: 840,
       altitude: 11200,
-      ...getCurrentCoordinates([-6.2603, 53.4213], [33.6242, 34.9192], 40)
+      ...getCurrentCoordinates([53.4213, -6.2603], [34.9192, 33.6242], 40)
     },
     progress: 40
   },

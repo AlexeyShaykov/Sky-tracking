@@ -1,14 +1,27 @@
 import { useEffect, useMemo, useRef } from 'react';
 import Map, { Layer, Marker, Source } from 'react-map-gl/maplibre';
-import type { MapRef } from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import useCurrentFlight from '@/hooks/useCurrentFlight';
 import { MapPin, Plane } from 'lucide-react';
+import type { MapRef } from 'react-map-gl/maplibre';
+
+import 'maplibre-gl/dist/maplibre-gl.css';
+
+import useCurrentFlight from '@/hooks/useCurrentFlight';
+import useTheme from '@/providers/theme/useTheme';
+
 import { FLIGHTS } from '../flight-list/flights.data';
-import { INITIAL_CENTER, routeDashedStyles, routeSolidStyles } from './flightTrackMap.utils';
+import {
+  createSplitGreatCircle,
+  INITIAL_CENTER,
+  routeDashedStyles,
+  routeSolidStyles,
+} from './flightTrackMap.utils';
+
+// 06802cadb84a56a8f0afda234fa582a5
 
 const FlightTrackMap = () => {
   const { flight, setFlight } = useCurrentFlight();
+
+  const { theme } = useTheme();
 
   const mapRef = useRef<MapRef>(null);
 
@@ -38,15 +51,6 @@ const FlightTrackMap = () => {
       return [[], []];
     }
 
-    // const totalDistance = Math.sqrt(
-    //   Math.pow(toLongitude - fromLongitude, 2) + Math.pow(toLatitude - fromLatitude, 2)
-    // );
-    // const traveledDistance = Math.sqrt(
-    //   Math.pow(longitude - fromLongitude, 2) + Math.pow(latitude - fromLatitude, 2)
-    // );
-
-    // const progressRatio = traveledDistance / totalDistance;
-
     const solidCoors = [
       [fromLongitude, fromLatitude],
       [longitude, latitude],
@@ -67,83 +71,111 @@ const FlightTrackMap = () => {
     latitude,
   ]);
 
-  const solidGeojson: GeoJSON.Feature<GeoJSON.LineString> = {
-    type: 'Feature',
-    geometry: {
-      type: 'LineString',
-      coordinates: solidCoors,
-    },
-    properties: {},
-  };
+  const { solidFeature, dashedFeature, snappedPoint, bearing } = useMemo(() => {
+    if (
+      !fromLongitude ||
+      !fromLatitude ||
+      !toLongitude ||
+      !toLatitude ||
+      !longitude ||
+      !latitude
+    ) {
+      return {
+        solidFeature: null,
+        dashedFeature: null,
+        snappedPoint: null,
+        bearing: 0,
+      };
+    }
 
-  const dashedGeojson: GeoJSON.Feature<GeoJSON.LineString> = {
-    type: 'Feature',
-    geometry: {
-      type: 'LineString',
-      coordinates: dashedCoors,
-    },
-    properties: {},
-  };
+    const from: [number, number] = [fromLongitude, fromLatitude];
+    const to: [number, number] = [toLongitude, toLatitude];
+    const current: [number, number] = [longitude, latitude];
 
-  console.log('dashedCoors', dashedCoors);
-  console.log('solidCoors', solidCoors);
+    return createSplitGreatCircle(from, to, current);
+  }, [
+    fromLongitude,
+    fromLatitude,
+    toLongitude,
+    toLatitude,
+    longitude,
+    latitude,
+  ]);
+
+  const [snappedLongitude, snappedLatitude] = snappedPoint || [INITIAL_CENTER[0], INITIAL_CENTER[1]];
 
   useEffect(() => {
-    if (!longitude || !latitude) {
+    if (!snappedLongitude || !snappedLatitude) {
       return;
     }
 
     if (mapRef.current) {
       mapRef.current.flyTo({
-        center: [longitude, latitude],
+        center: [snappedLongitude, snappedLatitude],
         zoom: 6,
         speed: 1,
       });
     }
-  }, [longitude, latitude]);
+  }, [snappedLongitude, snappedLatitude]);
+
 
   return (
     <Map
       ref={mapRef}
       initialViewState={{
-        longitude: longitude || INITIAL_CENTER[0],
-        latitude: latitude || INITIAL_CENTER[1],
+        longitude: snappedLongitude || INITIAL_CENTER[0],
+        latitude: snappedLatitude || INITIAL_CENTER[1],
         zoom: 6,
       }}
       style={{ width: '100%', height: '100vh' }}
-      mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+      mapStyle={
+        theme === 'dark'
+          ? 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
+          : 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
+      }
     >
-      {solidCoors.length === 2 && (
+      {solidCoors.length === 2 && solidFeature && (
         <Source
           id="route-solid"
           type="geojson"
-          data={solidGeojson}
+          data={{
+            type: 'FeatureCollection',
+            features: [solidFeature],
+          }}
         >
-          <Layer {...routeSolidStyles} />
+          <Layer {...routeSolidStyles(theme)} />
         </Source>
       )}
-      {
-        dashedCoors.length === 2 && (
-          <Source
-            id="route-dashed"
-            type="geojson"
-            data={dashedGeojson}
-          >
-            <Layer {...routeDashedStyles} />
-          </Source>
-        )
-      }
-      {longitude && latitude && (
-        <Marker
-          longitude={longitude}
-          latitude={latitude}
-          anchor="center"
+      {dashedCoors.length === 2 && dashedFeature && (
+        <Source
+          id="route-dashed"
+          type="geojson"
+          data={{
+            type: 'FeatureCollection',
+            features: [dashedFeature],
+          }}
         >
-          <Plane
-            fill="white"
-            strokeWidth={0}
-            size={26}
-          />
+          <Layer {...routeDashedStyles(theme)} />
+        </Source>
+      )}
+      {snappedPoint && (
+        <Marker
+          latitude={snappedPoint[1]}
+          longitude={snappedPoint[0]}
+        >
+          <div
+            style={{
+              transform: `rotate(${bearing - 45}deg)`,
+              transformOrigin: 'center',
+              transition: 'transform 0.3s ease',
+            }}
+          >
+            <Plane
+              strokeWidth={0}
+              size={28}
+              className="fill-foreground"
+            />
+          </div>
         </Marker>
       )}
       {fromLongitude && fromLatitude && (

@@ -21,7 +21,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
   return (
     <div
       className={cn(
-        'w-full rounded-lg p-0.5 transition-colors ease-in relative group animate-fade-in',
+        'w-full rounded-lg p-0.5 transition-colors ease-in relative group animate-fade-in shadow-xl',
         isSelected
           ? 'bg-linear-to-r from-rose-500 to-orange-400'
           : 'bg-transparent'
@@ -30,7 +30,7 @@ export const FlightCard = ({ flight }: { flight: IFlight }) => {
       <FlightCardActions flightId={id}  />
       <button
         className={cn(
-          'bg-flight-card rounded-lg p-5 block w-full',
+          'bg-flight-card rounded-lg p-4  block w-full',
         )}
         onClick={() => {
           setSearchParams({ [QUERY_PARAM_FLIGHT]: id });
