@@ -33,7 +33,7 @@ const Filters = ({
   }, [fromCountry]);
 
   return (
-    <div className="mb-4  ml-1 flex items-center justify-between">
+    <div className="ml-1 flex items-center justify-between">
       <FilterWithSearch 
         data={fromCountries}
         selectedValue={fromCountry}

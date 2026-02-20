@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'; 
 
 import favoritesReducer from './favorites/favorites.slice';
+import airportsReducer from './airports/airports.slice';
+
 
 export const store = configureStore({
   reducer: {
     favorites: favoritesReducer,
+    airports: airportsReducer,
   },
 });
 
