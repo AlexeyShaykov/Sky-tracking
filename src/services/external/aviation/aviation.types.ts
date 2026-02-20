@@ -70,6 +70,7 @@ export interface IFlightResponseData {
   flight: IFlightResponseFlight;
   aircraft: IFlightResponseAircraft | null;
   live: IFlightResponseLive | null;
+  progress?: number; // Custom field to represent flight progress percentage (0-100)
 }
 
 export interface TFlightsResponse {

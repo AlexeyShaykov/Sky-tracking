@@ -10,24 +10,21 @@ import ProgressBar from '../custom-ui/ProgressBar';
 import useAppSelector from '@/hooks/useAppSelector';
 
 export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
-  // const { logo } = flight;
-
   const {
     flight: flightInfo,
     departure,
     arrival,
     airline,
     aircraft,
-    live,
+    // live,
+    progress = 75
   } = flight;
-
-  const progress = 75;
 
   const { number: id } = flightInfo || {};
 
-  const { icao: fromCode, iata: fromIata } = departure || {};
+  const { icao: fromCode, iata: fromIata = '' } = departure || {};
 
-  const { icao: toCode, iata: toIata } = arrival || {};
+  const { icao: toCode, iata: toIata = '' } = arrival || {};
 
   const { registration: aircraftReg, icao24: aircraftIcao24 } = aircraft || {};
 
@@ -44,14 +41,11 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
 
   const { municipality: fromCity } = useAppSelector(
     (state) => state.airports.data[fromIata],
-  );
+  ) || {};
 
   const { municipality: toCity } = useAppSelector(
     (state) => state.airports.data[toIata],
-  );
-
-  // const { city: fromCity, code: fromCode } = from;
-  // const { city: toCity, code: toCode } = to;
+  ) || {};
 
   const logo = airlineIata
     ? `https://content.airhex.com/content/logos/airlines_${airlineIata}_200_200_s.png`
@@ -86,7 +80,7 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
             ) : (
               <Plane
                 size={40}
-                className="rounded-full bg-white p-1 fill-foreground"
+                className="rounded-full bg-white p-1 fill-black"
               />
             )}
 
@@ -100,16 +94,16 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
         </div>
 
         <div className="grid grid-cols-[auto_1fr_auto] gap-5 items-center">
-          <div className="space-y-0.5 text-left ">
-            <div className="whitespace-nowrap overflow-hidden text-ellipsis max-w-25">{fromCity}</div>
+          <div className="space-y-0.5 text-left max-w-18">
+            <div className="whitespace-nowrap overflow-hidden text-ellipsis max-w-25 text-left">{fromCity}</div>
             <div className="font-semibold text-3xl">{fromCode}</div>
           </div>
 
           <ProgressBar progress={progress} />
 
           <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <div>{toCity}</div>
+            <div className="space-y-0.5 max-w-18 text-left">
+              <div className="whitespace-nowrap overflow-hidden text-ellipsis max-w-25 text-left">{toCity}</div>
               <div className="font-semibold text-3xl">{toCode}</div>
             </div>
           </div>

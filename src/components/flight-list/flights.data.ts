@@ -1,6 +1,6 @@
 import type { IFlight } from '@/types/flights.types';
 
-const getCurrentCoordinates = (
+export const getCurrentCoordinates = (
 	from: [number, number],
 	to: [number, number],
 	progressPercent: number

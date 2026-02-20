@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/purity */
 import { useEffect, useMemo, useRef } from 'react';
 import Map, { Layer, Marker, Source } from 'react-map-gl/maplibre';
 import { MapPin, Plane } from 'lucide-react';
@@ -8,7 +9,6 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import useCurrentFlight from '@/hooks/useCurrentFlight';
 import useTheme from '@/providers/theme/useTheme';
 
-import { FLIGHTS } from '../flight-list/flights.data';
 import {
   createSplitGreatCircle,
   INITIAL_CENTER,
@@ -16,7 +16,12 @@ import {
   routeSolidStyles,
 } from './flightTrackMap.utils';
 
-// 06802cadb84a56a8f0afda234fa582a5
+import useAppSelector from '@/hooks/useAppSelector';
+import { useGetAllFlights } from '@/hooks/useGetAllFlights';
+
+import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
+import { getCurrentCoordinates } from '../flight-list/flights.data';
+
 
 const FlightTrackMap = () => {
   const { flight, setFlight } = useCurrentFlight();
@@ -25,19 +30,84 @@ const FlightTrackMap = () => {
 
   const mapRef = useRef<MapRef>(null);
 
-  const { route, from, to } = flight || {};
+  console.log({
+    flight,
+  });
 
-  const { longitude, latitude } = route || {};
-  const { longitude: fromLongitude, latitude: fromLatitude } = from || {};
-  const { longitude: toLongitude, latitude: toLatitude } = to || {};
+  const { departure, arrival } = flight || {};
+
+
+  const {
+    data: allFlightsData,
+  } = useGetAllFlights();
+
+  const allAirports = useAppSelector((state) => state.airports.data);
+
+  const {
+    longitude,
+    latitude,
+    fromLongitude,
+    fromLatitude,
+    toLongitude,
+    toLatitude,
+  } = useMemo(() => {
+    if (!flight || !departure || !arrival || !allAirports) {
+      return {
+        longitude: undefined,
+        latitude: undefined,
+        fromLongitude: undefined,
+        fromLatitude: undefined,
+        toLongitude: undefined,
+        toLatitude: undefined,
+      };
+    }
+
+    const fromLongitude = Number(allAirports[departure.iata]?.longitude_deg);
+    const fromLatitude = Number(allAirports[departure.iata]?.latitude_deg);
+
+    const toLongitude = Number(allAirports[arrival.iata]?.longitude_deg);
+    const toLatitude = Number(allAirports[arrival.iata]?.latitude_deg);
+
+    const progressPercent = flight.progress || Math.floor(Math.random() * 99);
+
+    const { longitude, latitude } = getCurrentCoordinates(
+      [fromLatitude, fromLongitude],
+      [toLatitude, toLongitude],
+      progressPercent
+    );
+
+    return {
+      longitude,
+      latitude,
+      fromLongitude,
+      fromLatitude,
+      toLongitude,
+      toLatitude,
+    };
+  }, [flight, allAirports, departure, arrival]);
 
   const otherFlightsCoordinates = useMemo(() => {
-    return FLIGHTS.filter((f) => f.id !== flight?.id).map((f) => ({
-      id: f.id,
-      longitude: f.route.longitude,
-      latitude: f.route.latitude,
-    }));
-  }, [flight]);
+    if (!allFlightsData || !allFlightsData.data) return [];
+
+    const filteredFlights = allFlightsData.data.filter((f: IFlightResponseData) => f.flight.number !== flight?.flight.number);
+
+    return filteredFlights.map((f: IFlightResponseData) => {
+      const randomProgress = f.progress || Math.floor(Math.random() * 99);
+      const fromLatitude = Number(allAirports[f.departure.iata]?.latitude_deg);
+      const fromLongitude = Number(allAirports[f.departure.iata]?.longitude_deg);
+
+      const toLatitude = Number(allAirports[f.arrival.iata]?.latitude_deg);
+      const toLongitude = Number(allAirports[f.arrival.iata]?.longitude_deg);
+
+      const { latitude, longitude } = getCurrentCoordinates([fromLatitude, fromLongitude], [toLatitude, toLongitude], randomProgress);
+
+      return {
+        id: f.flight.number,
+        longitude: isNaN(longitude) ? 0 : longitude,
+        latitude: isNaN(latitude) ? 0 : latitude,
+      }
+    });
+  }, [allFlightsData, allAirports, flight]);
 
   const [solidCoors, dashedCoors] = useMemo(() => {
     if (

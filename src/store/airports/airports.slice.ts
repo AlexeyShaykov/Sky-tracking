@@ -2,11 +2,26 @@
 import Papa from 'papaparse';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
-type Airport = {
+export type Airport = {
+  continent: string;
+  elevation_ft: string;
+  gps_code: string;
+  home_link: string;
   iata_code: string;
-  name: string;
-  municipality: string;
+  icao_code: string;
+  id: string;
+  ident: string;
   iso_country: string;
+  iso_region: string;
+  keywords: string;
+  latitude_deg: string;
+  local_code: string;
+  longitude_deg: string;
+  municipality: string;
+  name: string;
+  scheduled_service: string;
+  type: string;
+  wikipedia_link: string;
 };
 
 type AirportsState = {
