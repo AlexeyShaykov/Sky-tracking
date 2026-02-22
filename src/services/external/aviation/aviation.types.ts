@@ -1,4 +1,4 @@
-type FlightStatus =
+export type FlightStatus =
   | 'scheduled'
   | 'active'
   | 'landed'
@@ -28,12 +28,14 @@ export interface IFlightResponseDepartureArrival {
   estimated_runway: string;
   actual_runway: string;
   baggage?: string; // Only for departure
+  country?: string | null; // Optional field for country name
 }
 
 export interface IFlightResponseAirline {
   iata: string | null;
   icao: string | null;
   name: string | null;
+  logo?: string | null; // Optional field for airline logo URL
 }
 
 export interface IFlightResponseFlight {

@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
-// import type { IFlight } from '@/types/flights.types';
-// import { FLIGHTS } from './flights.data';
 import { FlightCard } from './FlightCard';
 import Filters from '../filters/Filters';
 import SkeletonLoader from '../custom-ui/SkeletonLoader';
@@ -11,6 +9,8 @@ import { RefreshCcw } from '../animate-ui/icons/refresh-ccw';
 import { formatDate } from './format-date';
 import { Button } from '../ui/button';
 import { useGetAllFlights } from '@/hooks/useGetAllFlights';
+import useCurrentFlight from '@/hooks/useCurrentFlight';
+import useAppSelector from '@/hooks/useAppSelector';
 
 export const FlightList = () => {
   const [fromCountry, setFromCountry] = useState<string | null>(null);
@@ -19,26 +19,38 @@ export const FlightList = () => {
   >(null);
 
   const [lastTimeUpdate, setLastTimeUpdate] = useState<Date | null>(null);
+  const {
+    removeSearchParam,
+    setFlight
+  } = useCurrentFlight();
 
-  // const filteredFlights = useMemo(() => {
-  //   return FLIGHTS.filter((flight) => {
-  //     const matchesFromCountry = fromCountry ? flight.from.country === fromCountry : true;
-  //     const matchesAirline = currentlySelectedAirline ? flight.airline.name === currentlySelectedAirline : true;
-  //     return matchesFromCountry && matchesAirline;
-  //   });
-  // }, [fromCountry, currentlySelectedAirline]);
+  const allAirports = useAppSelector((state) => state.airports.data);
 
   const {
       data: allFlightsData,
       isLoading,
       refetch,
       isRefetching,
-    } = useGetAllFlights(() => {
+    } = useGetAllFlights((__data: IFlightResponseData[]) => {
       setLastTimeUpdate(new Date());
-    });
+      setFlight(__data[0]?.flight.number || '');
+    }, allAirports);
 
-  const onRefreshFlightData = () => {
-    refetch();
+  const filteredFlights = useMemo(() => {
+    if (!allFlightsData?.data) return [];
+    if (!fromCountry && !currentlySelectedAirline) return allFlightsData?.data;
+
+    return allFlightsData?.data.filter((flight) => {
+      const matchesFromCountry = fromCountry ? flight.departure.country === fromCountry : true;
+      const matchesAirline = currentlySelectedAirline ? flight.airline.name === currentlySelectedAirline : true;
+      return matchesFromCountry && matchesAirline;
+    });
+  }, [allFlightsData?.data, fromCountry, currentlySelectedAirline]);
+
+  const onRefreshFlightData = async () => {
+    await refetch();
+    removeSearchParam();
+    setFlight(allFlightsData?.data[0]?.flight.number || '');
   };
 
   const renderContent = () => {
@@ -55,7 +67,7 @@ export const FlightList = () => {
       return <div>No flights found.</div>;
     }
 
-    return allFlightsData?.data.map((flight: IFlightResponseData) => {
+    return filteredFlights.map((flight: IFlightResponseData) => {
       return (
         <FlightCard
           flight={flight}

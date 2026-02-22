@@ -1,10 +1,12 @@
 import { API_KEY, API_URL } from './aviation.constants';
 import type { IGetAllFlightsRequestParams, TFlightsResponse } from './aviation.types';
 
+import { FLIGHTS } from '@/components/flight-list/flights.data';
+
 const getAllFlights = async ({
   airline,
   fromCountry,
-  limit = 10,
+  limit = 20,
   offset = 0,
   flight_status,
 }: IGetAllFlightsRequestParams): Promise<TFlightsResponse> => {
@@ -17,10 +19,26 @@ const getAllFlights = async ({
   url.searchParams.append('limit', limit.toString());
   url.searchParams.append('offset', offset.toString());
 
-  const response = await fetch(url.toString());
-  const data = await response.json();
+  return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ pagination: { limit, offset, total: FLIGHTS.length }, data: FLIGHTS });
+      }, 3000);
+  });
 
-  return data;
+  try {
+    const response = await fetch(url.toString());
+    const data = await response.json();
+  
+    return data;
+  } catch (error) {
+    console.error('Error fetching flight data:', error);
+    const pagination = {
+      pagination: { limit: 10, offset: 0, total: FLIGHTS.length }
+    }
+    // Fallback to static data in case of an error
+    return { ...pagination, data: FLIGHTS };
+  }
+
 };
 
 export {

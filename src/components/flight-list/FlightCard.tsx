@@ -33,10 +33,6 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);
 
-  console.log({
-    selectedFlight
-  })
-
   const isSelected = selectedFlight && selectedFlight === id;
 
   const { municipality: fromCity } = useAppSelector(

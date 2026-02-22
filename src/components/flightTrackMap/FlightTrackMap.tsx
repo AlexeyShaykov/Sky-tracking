@@ -30,18 +30,16 @@ const FlightTrackMap = () => {
 
   const mapRef = useRef<MapRef>(null);
 
-  console.log({
-    flight,
-  });
+  const currentFlightNumberRef = useRef<string | null>(null);
 
   const { departure, arrival } = flight || {};
 
 
+  const allAirports = useAppSelector((state) => state.airports.data);
   const {
     data: allFlightsData,
-  } = useGetAllFlights();
+  } = useGetAllFlights(undefined, allAirports);
 
-  const allAirports = useAppSelector((state) => state.airports.data);
 
   const {
     longitude,
@@ -179,6 +177,10 @@ const FlightTrackMap = () => {
       return;
     }
 
+    if (currentFlightNumberRef.current && flight?.flight.number === currentFlightNumberRef.current) {
+      return;
+    }
+
     if (mapRef.current) {
       mapRef.current.flyTo({
         center: [snappedLongitude, snappedLatitude],
@@ -186,7 +188,8 @@ const FlightTrackMap = () => {
         speed: 1,
       });
     }
-  }, [snappedLongitude, snappedLatitude]);
+    currentFlightNumberRef.current = flight?.flight.number || null;
+  }, [snappedLongitude, snappedLatitude, flight?.flight.number]);
 
 
   return (
