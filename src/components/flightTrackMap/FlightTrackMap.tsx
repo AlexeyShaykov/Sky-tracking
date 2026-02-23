@@ -32,7 +32,7 @@ const FlightTrackMap = () => {
 
   const currentFlightNumberRef = useRef<string | null>(null);
 
-  const { departure, arrival } = flight || {};
+  const { departure, arrival, live } = flight || {};
 
 
   const allAirports = useAppSelector((state) => state.airports.data);
@@ -40,49 +40,20 @@ const FlightTrackMap = () => {
     data: allFlightsData,
   } = useGetAllFlights(undefined, allAirports);
 
-
   const {
     longitude,
     latitude,
-    fromLongitude,
-    fromLatitude,
-    toLongitude,
-    toLatitude,
-  } = useMemo(() => {
-    if (!flight || !departure || !arrival || !allAirports) {
-      return {
-        longitude: undefined,
-        latitude: undefined,
-        fromLongitude: undefined,
-        fromLatitude: undefined,
-        toLongitude: undefined,
-        toLatitude: undefined,
-      };
-    }
+  } = live || {};
 
-    const fromLongitude = Number(allAirports[departure.iata]?.longitude_deg);
-    const fromLatitude = Number(allAirports[departure.iata]?.latitude_deg);
+  const {
+    longitude: fromLongitude,
+    latitude: fromLatitude,
+  } = departure || {};
 
-    const toLongitude = Number(allAirports[arrival.iata]?.longitude_deg);
-    const toLatitude = Number(allAirports[arrival.iata]?.latitude_deg);
-
-    const progressPercent = flight.progress || Math.floor(Math.random() * 99);
-
-    const { longitude, latitude } = getCurrentCoordinates(
-      [fromLatitude, fromLongitude],
-      [toLatitude, toLongitude],
-      progressPercent
-    );
-
-    return {
-      longitude,
-      latitude,
-      fromLongitude,
-      fromLatitude,
-      toLongitude,
-      toLatitude,
-    };
-  }, [flight, allAirports, departure, arrival]);
+  const {
+    longitude: toLongitude,
+    latitude: toLatitude,
+  } = arrival || {};
 
   const otherFlightsCoordinates = useMemo(() => {
     if (!allFlightsData || !allFlightsData.data) return [];

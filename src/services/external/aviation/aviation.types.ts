@@ -29,6 +29,8 @@ export interface IFlightResponseDepartureArrival {
   actual_runway: string;
   baggage?: string; // Only for departure
   country?: string | null; // Optional field for country name
+  longitude?: number | null; // Optional field for airport longitude
+  latitude?: number | null; // Optional field for airport latitude
 }
 
 export interface IFlightResponseAirline {
