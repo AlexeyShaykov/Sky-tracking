@@ -1,25 +1,27 @@
-import type { IFlight } from '@/types/flights.types';
 import { Plane } from 'lucide-react'
+
+import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
+import getUTCOffsetTimeZone from './getUTCOffsetTimeZone';
 
 const FlightRoute = ({
   flight
 }: {
-  flight: IFlight
+  flight: IFlightResponseData
 }) => {
   const {
-    from,
-    to,
+    departure: from,
+    arrival: to,
   } = flight;
 
   const {
-    code: fromCode,
-    city: fromCity,
+    iata: fromCode,
+    municipality: fromCity,
     timezone: fromTimezone
   } = from;
   
   const {
-    code: toCode,
-    city: toCity,
+    iata: toCode,
+    municipality: toCity,
     timezone: toTimezone
   } = to;
 
@@ -33,7 +35,7 @@ const FlightRoute = ({
 					{fromCity}
 				</p>
 				<p className="text-foreground/60 text-sm font-medium">
-					{fromTimezone}
+					{getUTCOffsetTimeZone(fromTimezone)}
 				</p>
 			</div>
 
@@ -52,7 +54,7 @@ const FlightRoute = ({
 					{toCity}
 				</p>
 				<p className="text-foreground/60 text-sm font-medium">
-					{toTimezone}
+					{getUTCOffsetTimeZone(toTimezone)}
 				</p>
 			</div>
 		</div>

@@ -31,6 +31,8 @@ export interface IFlightResponseDepartureArrival {
   country?: string | null; // Optional field for country name
   longitude?: number | null; // Optional field for airport longitude
   latitude?: number | null; // Optional field for airport latitude
+  municipality?: string | null; // Optional field for city/municipality name
+  iso_country?: string | null; // Optional field for ISO country code (e.g., "US", "GB")
 }
 
 export interface IFlightResponseAirline {
@@ -38,6 +40,7 @@ export interface IFlightResponseAirline {
   icao: string | null;
   name: string | null;
   logo?: string | null; // Optional field for airline logo URL
+  aircraft_model?: string | null; // Optional field for list of aircraft models used by the airline
 }
 
 export interface IFlightResponseFlight {

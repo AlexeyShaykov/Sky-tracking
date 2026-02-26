@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router'
 import { useEffect, useState } from 'react';
 
-import { getClientToken } from '@/services/external/opensky/opensky.service';
 import useAppDispatch from '@/hooks/useAppDispatch';
 
 import Header from './header/Header'
@@ -15,7 +14,6 @@ export const Layout = () => {
   useEffect(() => {
     async function initialize() {
       await dispatch(loadAirports());
-      getClientToken();
       setTimeout(() => {
         setIsLoading(false);
       }, 100);

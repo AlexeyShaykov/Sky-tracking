@@ -6,6 +6,7 @@ import {
   ISO_COUNTRIES,
 } from '@/components/flight-list/flights.data';
 import type { Airport } from '@/store/airports/airports.slice';
+import getRandomAircraftModel from '@/components/flight-details/getRandomAircraftModel';
 
 export const useGetAllFlights = (
   afterFetchCallback?: (newData: IFlightResponseData[]) => void,
@@ -22,7 +23,7 @@ export const useGetAllFlights = (
 
       const newData = result.data.reduce(
         (acc: IFlightResponseData[], flight: IFlightResponseData) => {
-          const { aircraft, departure, arrival } = flight;
+          const { aircraft, departure, arrival, airline } = flight;
           const { registration: aircraftReg, icao24: aircraftIcao24 } =
             aircraft || {};
 
@@ -55,6 +56,21 @@ export const useGetAllFlights = (
                 arrival.iata,
               longitude: Number(allAirports[arrival.iata]?.longitude_deg),
               latitude: Number(allAirports[arrival.iata]?.latitude_deg),
+              iso_country: allAirports[arrival.iata]?.iso_country || null,
+            };
+          }
+
+          if (allAirports && !departure.municipality && departure.iata) {
+            newDepartureAirportIata = {
+              ...newDepartureAirportIata,
+              municipality: allAirports[departure.iata]?.municipality,
+            };
+          }
+
+          if (allAirports && !arrival.municipality && arrival.iata) {
+            newArrival = {
+              ...newArrival,
+              municipality: allAirports[arrival.iata]?.municipality,
             };
           }
 
@@ -99,6 +115,10 @@ export const useGetAllFlights = (
               arrival: newArrival,
               live,
               progress,
+              airline: {
+                ...airline,
+                aircraft_model: getRandomAircraftModel(), // Assigning a random aircraft model for demonstration
+              }
             });
           }
           return acc;

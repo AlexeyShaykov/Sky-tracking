@@ -1,16 +1,22 @@
 import { useSearchParams } from 'react-router';
 
-import type { IFlight } from '@/types/flights.types';
+
+import type { IFlightResponseData } from '@/services/external/opensky/opensky.types';
 
 import { X } from '../animate-ui/icons/x';
 import { QUERY_PARAM_FLIGHT } from '../flight-list/flight.constants';
 
 
-const FlightHeader = ({ flight }: { flight: IFlight }) => {
-  const { airline, id } = flight;
+const FlightHeader = ({ flight }: { flight: IFlightResponseData }) => {
+  const { flight: flightInfo, airline } = flight;
+  const {
+    number: id
+  } = flightInfo;
+
   const {
     name
   } = airline;
+
 
   const [searchParams, setSearchParams] = useSearchParams();
 

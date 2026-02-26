@@ -34,6 +34,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Bulgaria',
       longitude: 23.4146,
       latitude: 42.6959,
+      municipality: 'Sofia',
+      iso_country: 'BG',
     },
     arrival: {
       airport: 'Beijing Capital International Airport',
@@ -51,6 +53,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'China',
       longitude: 116.4074,
       latitude: 39.9042,
+      municipality: 'Beijing',
+      iso_country: 'CN',
     },
     airline: {
       iata: 'TK',
@@ -100,6 +104,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Ireland',
       longitude: -6.2701,
       latitude: 53.4213,
+      municipality: 'Dublin',
+      iso_country: 'IE',
     },
     arrival: {
       airport: 'Larnaca International Airport',
@@ -117,6 +123,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Cyprus',
       longitude: 33.6249,
       latitude: 34.8756,
+      municipality: 'Larnaca',
+      iso_country: 'CY',
     },
     airline: {
       iata: 'FR',
@@ -166,6 +174,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'France',
       longitude: 7.2159,
       latitude: 43.6584,
+      municipality: 'Nice',
+      iso_country: 'FR',
     },
     arrival: {
       airport: 'Tbilisi International Airport',
@@ -183,6 +193,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Georgia',
       longitude: 44.9562,
       latitude: 41.6692,
+      municipality: 'Tbilisi',
+      iso_country: 'GE',
     },
     airline: {
       iata: 'S7',
@@ -232,6 +244,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Portugal',
       longitude: -8.611,
       latitude: 41.2481,
+      municipality: 'Lisbon',
+      iso_country: 'PT',
     },
     arrival: {
       airport: 'Heydar Aliyev International Airport',
@@ -249,6 +263,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Azerbaijan',
       longitude: 49.8444,
       latitude: 40.4677,
+      municipality: 'Baku',
+      iso_country: 'AZ',
     },
     airline: {
       iata: 'LX',
@@ -298,6 +314,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Bulgaria',
       longitude: 27.5159,
       latitude: 42.5698,
+      municipality: 'Burgas',
+      iso_country: 'BG',
     },
     arrival: {
       airport: 'Muscat International Airport',
@@ -315,6 +333,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Oman',
       longitude: 58.5933,
       latitude: 23.5933,
+      municipality: 'Muscat',
+      iso_country: 'OM',
     },
     airline: {
       iata: 'LH',
@@ -364,6 +384,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Spain',
       longitude: -3.5676,
       latitude: 40.4722,
+      municipality: 'Madrid',
+      iso_country: 'ES',
     },
     arrival: {
       airport: 'Leonardo da Vinci–Fiumicino Airport',
@@ -381,6 +403,8 @@ export const FLIGHTS: IFlightResponseData[] = [
       country: 'Italy',
       longitude: 12.2509,
       latitude: 41.8003,
+      municipality: 'Rome',
+      iso_country: 'IT',
     },
     airline: {
       iata: 'LH',

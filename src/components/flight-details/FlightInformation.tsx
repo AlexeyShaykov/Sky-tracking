@@ -1,10 +1,29 @@
-import type { IFlight } from '@/types/flights.types';
+import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 
-const FlightInformation = ({ flight }: { flight: IFlight }) => {
-  const { airline, airplane } = flight;
+import getRandomAircraftModel from './getRandomAircraftModel';
 
-  const { country } = airline;
-  const { name: airplaneName } = airplane;
+const FlightInformation = ({ flight }: { flight: IFlightResponseData }) => {
+   const {
+    departure,
+    live,
+    airline,
+  } = flight;
+
+  const {
+    country = 'N/A',
+    iata,
+    iso_country,
+  } = departure;
+
+  const {
+    altitude,
+    speed_horizontal,
+  } = live || {};
+
+  const {
+    aircraft_model
+  } = airline || {};
+
 
   return (
     <div className="my-3.5">
@@ -13,13 +32,13 @@ const FlightInformation = ({ flight }: { flight: IFlight }) => {
       </div>
       <div className="grid grid-cols-2 gap-1 mb-1">
         <div className="bg-card px-mini-element py-mini-element flex items-center justify-between">
-          <p>{airplaneName}</p>
+          <p>{aircraft_model || getRandomAircraftModel()}</p>
         </div>
         <div className="bg-card px-mini-element py-mini-element flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img
-              src={`/flags/${flight?.airline.country.toLowerCase()}.svg`}
-              alt={country}
+              src={`https://flagcdn.com/24x18/${(iso_country as string).toLowerCase()}.png`}
+              alt={iata}
               width={24}
               height={18}
               className="inline-block mr-1"
@@ -31,11 +50,11 @@ const FlightInformation = ({ flight }: { flight: IFlight }) => {
       <div className="grid grid-cols-2 gap-1 mb-1">
         <div className="bg-card px-mini-element py-mini-element flex items-center justify-between rounded-bl-xl">
           <p className="text-muted-foreground">Speed</p>
-          <p>870 km/h</p>
+          <p>{speed_horizontal ? `${speed_horizontal} km/h` : 'N/A'}</p>
         </div>
         <div className="bg-card px-mini-element py-mini-element flex items-center justify-between rounded-br-xl">
           <p className="text-muted-foreground">Altitude</p>
-          <p>11 300m</p>
+          <p>{altitude ? `${altitude} m` : 'N/A'}</p>
         </div>
       </div>
     </div>
