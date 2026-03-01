@@ -6,7 +6,7 @@ import SkeletonLoader from '../custom-ui/SkeletonLoader';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { AnimateIcon } from '../animate-ui/icons/icon';
 import { RefreshCcw } from '../animate-ui/icons/refresh-ccw';
-import { formatDate } from './format-date';
+import { formatDate } from '../../data/format-date';
 import { Button } from '../ui/button';
 import { useGetAllFlights } from '@/hooks/useGetAllFlights';
 import useCurrentFlight from '@/hooks/useCurrentFlight';

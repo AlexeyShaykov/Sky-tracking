@@ -7,10 +7,15 @@ import { QUERY_PARAM_FLIGHT } from '@/components/flight-list/flight.constants';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { useGetAllFlights } from './useGetAllFlights';
 import useAppSelector from './useAppSelector';
-import { getCurrentCoordinates } from '@/components/flight-list/flights.data';
+import { getCurrentCoordinates } from '@/data/flights.data';
 
 const INTERVAL_MS = 1000;
 const PROGRESS_STEP = 0.02;
+
+const lerp = (current: number, min: number, max: number, maxDelta: number) => {
+  const delta = (Math.random() - 0.5) * 2 * maxDelta;
+  return Math.min(max, Math.max(min, current + delta));
+};
 
 const useCurrentFlight = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -19,6 +24,11 @@ const useCurrentFlight = () => {
   const queryClient = useQueryClient();
 
   const progressRef = useRef<number | null>(null);
+  const liveRef = useRef({
+    altitude: 10000,
+    direction: 0,
+    speed_horizontal: 850,
+  });
 
   const [flight, setCurrentFlight] = useState<IFlightResponseData | null>(null);
 
@@ -55,6 +65,15 @@ const useCurrentFlight = () => {
     const found = allFlightsData.data.find(
       (f: IFlightResponseData) => f.flight.number === selectedFlight,
     );
+
+    if (found?.live) {
+      liveRef.current = {
+        altitude: found.live.altitude || 10000,
+        direction: found.live.direction || 0,
+        speed_horizontal: found.live.speed_horizontal || 850,
+      };
+    }
+
     setCurrentFlight(found ?? null);
   }, [allFlightsData, selectedFlight]);
 
@@ -77,14 +96,19 @@ const useCurrentFlight = () => {
           return prev;
         }
 
+        // плавно меняем показатели
+        liveRef.current = {
+          altitude: Math.floor(lerp(liveRef.current.altitude, 8000, 13000, 50)),
+          direction: Math.floor(lerp(liveRef.current.direction, 0, 360, 2)),
+          speed_horizontal: Math.floor(lerp(liveRef.current.speed_horizontal, 700, 950, 5)),
+        };
+
         const updatedFlight: IFlightResponseData = {
           ...prev,
           progress: progressRef.current,
           live: {
             updated: new Date().toISOString(),
-            altitude: Math.floor(Math.random() * 40000) + 1000,
-            direction: Math.floor(Math.random() * 360),
-            speed_horizontal: Math.floor(Math.random() * 900) + 100,
+            ...liveRef.current,
             speed_vertical: 0,
             is_ground: false,
             ...getCurrentCoordinates(

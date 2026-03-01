@@ -199,3 +199,7 @@ export type CountryName = typeof countries[CountryCode];
 export const getCountryName = (code: CountryCode): CountryName => {
   return countries[code];
 };
+
+export const getISOCodeByName = (name: CountryName): CountryCode | undefined => {
+  return (Object.keys(countries) as CountryCode[]).find(code => countries[code] === name);
+};

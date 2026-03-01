@@ -49,7 +49,7 @@ export const FlightDetails = () => {
 
         <div className="p-3.5">
           <FlightRoute flight={flight} />
-          <FlightStatus progress={progress} />
+          <FlightStatus progress={progress} flight={flight} />
           <FlightSchedule flight={flight} />
 
           <FlightInformation flight={flight} />

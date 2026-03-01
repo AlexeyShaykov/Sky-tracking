@@ -1,7 +1,7 @@
 import { API_KEY, API_URL } from './aviation.constants';
 import type { IGetAllFlightsRequestParams, TFlightsResponse } from './aviation.types';
 
-import { FLIGHTS } from '@/components/flight-list/flights.data';
+import { FLIGHTS } from '@/data/flights.data';
 
 const getAllFlights = async ({
   airline,

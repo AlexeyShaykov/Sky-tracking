@@ -3,10 +3,10 @@ import type { IFlightResponseData } from '@/services/external/aviation/aviation.
 import { useQuery } from '@tanstack/react-query';
 import {
   getCurrentCoordinates,
-  ISO_COUNTRIES,
-} from '@/components/flight-list/flights.data';
+} from '@/data/flights.data';
 import type { Airport } from '@/store/airports/airports.slice';
 import getRandomAircraftModel from '@/components/flight-details/getRandomAircraftModel';
+import { getISOCodeByName, type CountryName } from '@/data/countries';
 
 export const useGetAllFlights = (
   afterFetchCallback?: (newData: IFlightResponseData[]) => void,
@@ -33,30 +33,29 @@ export const useGetAllFlights = (
           const progress = flight.progress || Math.floor(Math.random() * 99);
 
           if (allAirports && departure.iata && !departure.country) {
+             const __countryCode = allAirports[departure.iata]?.iso_country || departure.iata;
+
             newDepartureAirportIata = {
               ...departure,
-              country:
-                ISO_COUNTRIES[
-                  allAirports[flight.departure.iata]?.iso_country
-                ] || flight.departure.iata,
+              country: __countryCode,
               longitude: Number(
                 allAirports[flight.departure.iata]?.longitude_deg,
               ),
               latitude: Number(
                 allAirports[flight.departure.iata]?.latitude_deg,
               ),
+              iso_country: allAirports[departure.iata]?.iso_country || (__countryCode ? getISOCodeByName(__countryCode as CountryName) : undefined),
             };
           }
 
           if (allAirports && arrival.iata && !arrival.country) {
+            const __countryCode = allAirports[arrival.iata]?.iso_country || arrival.iata;
             newArrival = {
               ...arrival,
-              country:
-                ISO_COUNTRIES[allAirports[arrival.iata]?.iso_country] ||
-                arrival.iata,
+              country: __countryCode,
               longitude: Number(allAirports[arrival.iata]?.longitude_deg),
               latitude: Number(allAirports[arrival.iata]?.latitude_deg),
-              iso_country: allAirports[arrival.iata]?.iso_country || null,
+              iso_country: allAirports[arrival.iata]?.iso_country || (__countryCode ? getISOCodeByName(__countryCode as CountryName) : undefined),
             };
           }
 

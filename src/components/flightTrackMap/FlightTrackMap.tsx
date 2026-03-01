@@ -20,7 +20,7 @@ import useAppSelector from '@/hooks/useAppSelector';
 import { useGetAllFlights } from '@/hooks/useGetAllFlights';
 
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
-import { getCurrentCoordinates } from '../flight-list/flights.data';
+import { getCurrentCoordinates } from '../../data/flights.data';
 
 
 const FlightTrackMap = () => {

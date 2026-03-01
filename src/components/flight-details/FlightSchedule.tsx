@@ -1,5 +1,5 @@
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
-import formatTime from '../flight-list/format-time';
+import formatTime from '../../data/format-time';
 
 const FlightSchedule = ({
 	flight
