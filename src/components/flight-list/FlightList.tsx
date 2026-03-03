@@ -11,12 +11,13 @@ import { Button } from '../ui/button';
 import { useGetAllFlights } from '@/hooks/useGetAllFlights';
 import useCurrentFlight from '@/hooks/useCurrentFlight';
 import useAppSelector from '@/hooks/useAppSelector';
+import useAppDispatch from '@/hooks/useAppDispatch';
+import { addCurrentlySelectedAirlineFilter, addFromCountryFilter } from '@/store/filters/filters.slice';
+import { useAircraftPhotos } from '@/hooks/useAircraftPhotos';
 
 export const FlightList = () => {
-  const [fromCountry, setFromCountry] = useState<string | null>(null);
-  const [currentlySelectedAirline, setCurrentlySelectedAirline] = useState<
-    string | null
-  >(null);
+  const fromSelectedCountry = useAppSelector((state) => state.filters.fromCountry);
+  const currentlySelectedAirline = useAppSelector((state) => state.filters.currentlySelectedAirline);
 
   const [lastTimeUpdate, setLastTimeUpdate] = useState<Date | null>(null);
   const {
@@ -25,6 +26,7 @@ export const FlightList = () => {
   } = useCurrentFlight();
 
   const allAirports = useAppSelector((state) => state.airports.data);
+  const dispatch = useAppDispatch();
 
   const {
       data: allFlightsData,
@@ -36,16 +38,18 @@ export const FlightList = () => {
       setFlight(__data[0]?.flight.number || '');
     }, allAirports);
 
+    useAircraftPhotos(allFlightsData?.data);
+
   const filteredFlights = useMemo(() => {
     if (!allFlightsData?.data) return [];
-    if (!fromCountry && !currentlySelectedAirline) return allFlightsData?.data;
+    if (!fromSelectedCountry && !currentlySelectedAirline) return allFlightsData?.data;
 
     return allFlightsData?.data.filter((flight) => {
-      const matchesFromCountry = fromCountry ? flight.departure.country === fromCountry : true;
+      const matchesFromCountry = fromSelectedCountry ? flight.departure.country === fromSelectedCountry : true;
       const matchesAirline = currentlySelectedAirline ? flight.airline.name === currentlySelectedAirline : true;
       return matchesFromCountry && matchesAirline;
     });
-  }, [allFlightsData?.data, fromCountry, currentlySelectedAirline]);
+  }, [allFlightsData?.data, fromSelectedCountry, currentlySelectedAirline]);
 
   const onRefreshFlightData = async () => {
     await refetch();
@@ -80,10 +84,16 @@ export const FlightList = () => {
   return (
     <div className="xs:w-full md:w-xs w-sm relative z-10">
       <Filters
-        fromCountry={fromCountry}
-        setFromCountry={setFromCountry}
+        fromCountry={fromSelectedCountry}
+        setSelectedFromCountry={(selectedCountry) => {
+          dispatch(addFromCountryFilter(selectedCountry));
+          removeSearchParam();
+        }}
         currentlySelectedAirline={currentlySelectedAirline}
-        setCurrentlySelectedAirline={setCurrentlySelectedAirline}
+        setCurrentlySelectedAirline={(selectedAirline) => {
+          dispatch(addCurrentlySelectedAirlineFilter(selectedAirline));
+          removeSearchParam();
+        }}
       />
       <div className="absolute top-0 -right-16">
         <Button

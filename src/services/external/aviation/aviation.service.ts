@@ -19,11 +19,11 @@ const getAllFlights = async ({
   url.searchParams.append('limit', limit.toString());
   url.searchParams.append('offset', offset.toString());
 
-  return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ pagination: { limit, offset, total: FLIGHTS.length }, data: FLIGHTS });
-      }, 3000);
-  });
+  // return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       resolve({ pagination: { limit, offset, total: FLIGHTS.length }, data: FLIGHTS });
+  //     }, 3000);
+  // });
 
   try {
     const response = await fetch(url.toString());

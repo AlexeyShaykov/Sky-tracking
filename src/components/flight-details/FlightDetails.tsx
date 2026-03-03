@@ -45,7 +45,7 @@ export const FlightDetails = () => {
         absolute right-7 w-sm top-7  bg-flight-card rounded-xl overflow-hidden z-10 shadow-xl"
       >
         <FlightHeader flight={flight} />
-        <FlightImage />
+        <FlightImage flight={flight} />
 
         <div className="p-3.5">
           <FlightRoute flight={flight} />

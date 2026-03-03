@@ -55,6 +55,7 @@ export interface IFlightResponseAircraft {
   iata: string;
   icao: string;
   icao24: string;
+  photo?: string | null; // Optional field for aircraft photo URL
 }
 
 export interface IFlightResponseLive {

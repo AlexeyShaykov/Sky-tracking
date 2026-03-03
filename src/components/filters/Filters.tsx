@@ -1,4 +1,4 @@
-import { useMemo, type Dispatch, type SetStateAction } from 'react';
+import { useMemo } from 'react';
 
 import { useGetAllFlights } from '@/hooks/useGetAllFlights';
 
@@ -8,14 +8,14 @@ import FilterWithSearch from '../custom-ui/FilterWithSearch';
 
 const Filters = ({
   fromCountry,
-  setFromCountry,
+  setSelectedFromCountry,
   currentlySelectedAirline,
   setCurrentlySelectedAirline,
 }: {
   fromCountry: string | null;
-  setFromCountry: Dispatch<SetStateAction<string | null>>;
+  setSelectedFromCountry: (value: string | null) => void;
   currentlySelectedAirline: string | null;
-  setCurrentlySelectedAirline: Dispatch<SetStateAction<string | null>>;
+  setCurrentlySelectedAirline: (value: string | null) => void;
 }) => {
   const allAirports = useAppSelector((state) => state.airports.data);
 
@@ -51,13 +51,17 @@ const Filters = ({
       <FilterWithSearch 
         data={fromCountries as string[]}
         selectedValue={fromCountry}
-        onValueChange={setFromCountry}
+        onValueChange={(value: string | null) => {
+          setSelectedFromCountry(value);
+        }}
         entityName="country"
       />
       <FilterWithSearch 
         data={airlines as string[]}
         selectedValue={currentlySelectedAirline}
-        onValueChange={setCurrentlySelectedAirline}
+        onValueChange={(value: string | null) => {
+          setCurrentlySelectedAirline(value);
+        }}
         entityName="airline"
       />
     </div>

@@ -26,6 +26,9 @@ import { getCurrentCoordinates } from '../../data/flights.data';
 const FlightTrackMap = () => {
   const { flight, setFlight } = useCurrentFlight();
 
+  const fromSelectedCountry = useAppSelector((state) => state.filters.fromCountry);
+  const currentlySelectedAirline = useAppSelector((state) => state.filters.currentlySelectedAirline);
+
   const { theme } = useTheme();
 
   const mapRef = useRef<MapRef>(null);
@@ -39,6 +42,17 @@ const FlightTrackMap = () => {
   const {
     data: allFlightsData,
   } = useGetAllFlights(undefined, allAirports);
+
+  const filteredFlights = useMemo(() => {
+    if (!allFlightsData?.data) return [];
+    if (!fromSelectedCountry && !currentlySelectedAirline) return allFlightsData?.data;
+
+    return allFlightsData?.data.filter((flight) => {
+      const matchesFromCountry = fromSelectedCountry ? flight.departure.country === fromSelectedCountry : true;
+      const matchesAirline = currentlySelectedAirline ? flight.airline.name === currentlySelectedAirline : true;
+      return matchesFromCountry && matchesAirline;
+    });
+  }, [allFlightsData?.data, fromSelectedCountry, currentlySelectedAirline]); 
 
   const {
     longitude,
@@ -56,11 +70,11 @@ const FlightTrackMap = () => {
   } = arrival || {};
 
   const otherFlightsCoordinates = useMemo(() => {
-    if (!allFlightsData || !allFlightsData.data) return [];
+    if (!filteredFlights || !filteredFlights.length) return [];
 
-    const filteredFlights = allFlightsData.data.filter((f: IFlightResponseData) => f.flight.number !== flight?.flight.number);
+    const otherFlights = filteredFlights.filter((f: IFlightResponseData) => f.flight.number !== flight?.flight.number);
 
-    return filteredFlights.map((f: IFlightResponseData) => {
+    return otherFlights.map((f: IFlightResponseData) => {
       const randomProgress = f.progress || Math.floor(Math.random() * 99);
       const fromLatitude = Number(allAirports[f.departure.iata]?.latitude_deg);
       const fromLongitude = Number(allAirports[f.departure.iata]?.longitude_deg);
@@ -76,7 +90,7 @@ const FlightTrackMap = () => {
         latitude: isNaN(latitude) ? 0 : latitude,
       }
     });
-  }, [allFlightsData, allAirports, flight]);
+  }, [filteredFlights, allAirports, flight]);
 
   const [solidCoors, dashedCoors] = useMemo(() => {
     if (
