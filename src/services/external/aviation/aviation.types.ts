@@ -15,24 +15,24 @@ export interface IGetAllFlightsRequestParams {
 }
 
 export interface IFlightResponseDepartureArrival {
-  airport: string;
-  timezone: string;
-  iata: string;
-  icao: string;
-  terminal: string;
-  gate: string;
-  delay: number;
-  scheduled: string;
-  estimated: string;
-  actual: string;
-  estimated_runway: string;
-  actual_runway: string;
-  baggage?: string; // Only for departure
-  country?: string | null; // Optional field for country name
-  longitude?: number | null; // Optional field for airport longitude
-  latitude?: number | null; // Optional field for airport latitude
-  municipality?: string | null; // Optional field for city/municipality name
-  iso_country?: string | null; // Optional field for ISO country code (e.g., "US", "GB")
+  airport: string | null;
+  timezone: string | null;
+  iata: string | null;
+  icao: string | null;
+  terminal: string | null;
+  gate: string | null;
+  delay: number | null;
+  scheduled: string | null;
+  estimated: string | null;
+  actual: string | null;
+  estimated_runway: string | null;
+  actual_runway: string | null;
+  baggage?: string | null;
+  country?: string | null;
+  longitude?: number | null;
+  latitude?: number | null;
+  municipality?: string | null;
+  iso_country?: string | null;
 }
 
 export interface IFlightResponseAirline {
@@ -44,17 +44,17 @@ export interface IFlightResponseAirline {
 }
 
 export interface IFlightResponseFlight {
-  number: string;
-  iata: string;
-  icao: string;
-  codeshared: Record<string, unknown>;
+  number: string | null;
+  iata: string | null;
+  icao: string | null;
+  codeshared: Record<string, unknown> | null;
 }
 
 export interface IFlightResponseAircraft {
-  registration: string;
-  iata: string;
-  icao: string;
-  icao24: string;
+  registration: string | null;
+  iata: string | null;
+  icao: string | null;
+  icao24: string | null;
   photo?: string | null; // Optional field for aircraft photo URL
 }
 

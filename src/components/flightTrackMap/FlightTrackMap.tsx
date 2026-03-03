@@ -20,7 +20,7 @@ import useAppSelector from '@/hooks/useAppSelector';
 import { useGetAllFlights } from '@/hooks/useGetAllFlights';
 
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
-import { getCurrentCoordinates } from '../../data/flights.data';
+import { getCurrentCoordinates } from '../../data/getCurrentCoordinates';
 
 
 const FlightTrackMap = () => {
@@ -76,11 +76,11 @@ const FlightTrackMap = () => {
 
     return otherFlights.map((f: IFlightResponseData) => {
       const randomProgress = f.progress || Math.floor(Math.random() * 99);
-      const fromLatitude = Number(allAirports[f.departure.iata]?.latitude_deg);
-      const fromLongitude = Number(allAirports[f.departure.iata]?.longitude_deg);
+      const fromLatitude = Number(allAirports[f.departure.iata!]?.latitude_deg);
+      const fromLongitude = Number(allAirports[f.departure.iata!]?.longitude_deg);
 
-      const toLatitude = Number(allAirports[f.arrival.iata]?.latitude_deg);
-      const toLongitude = Number(allAirports[f.arrival.iata]?.longitude_deg);
+      const toLatitude = Number(allAirports[f.arrival.iata!]?.latitude_deg);
+      const toLongitude = Number(allAirports[f.arrival.iata!]?.longitude_deg);
 
       const { latitude, longitude } = getCurrentCoordinates([fromLatitude, fromLongitude], [toLatitude, toLongitude], randomProgress);
 
@@ -267,6 +267,8 @@ const FlightTrackMap = () => {
           latitude={latitude}
           anchor="center"
           onClick={() => {
+            if (!id) return;
+          
             setFlight(id);
           }}
           className="cursor-pointer"

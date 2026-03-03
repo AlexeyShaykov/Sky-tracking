@@ -1,12 +1,11 @@
 import { getAllFlights } from '@/services/external/aviation/aviation.service';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { useQuery } from '@tanstack/react-query';
-import {
-  getCurrentCoordinates,
-} from '@/data/flights.data';
+import { getCurrentCoordinates } from '@/data/getCurrentCoordinates';
 import type { Airport } from '@/store/airports/airports.slice';
-import getRandomAircraftModel from '@/components/flight-details/getRandomAircraftModel';
-import { getISOCodeByName, type CountryName } from '@/data/countries';
+import getRandomAircraftModel from '@/data/getRandomAircraftModel';
+import { getCountryName, getISOCodeByName, type CountryCode, type CountryName } from '@/data/countries';
+import { getTimezone } from '@/data/getTimezone';
 
 export const useGetAllFlights = (
   afterFetchCallback?: (newData: IFlightResponseData[]) => void,
@@ -33,29 +32,50 @@ export const useGetAllFlights = (
           const progress = flight.progress || Math.floor(Math.random() * 99);
 
           if (allAirports && departure.iata && !departure.country) {
-             const __countryCode = allAirports[departure.iata]?.iso_country || departure.iata;
+            const departureCountryCode = allAirports[departure.iata]?.iso_country || departure.iata;
 
+            const iso_country =
+              allAirports[departure.iata]?.iso_country ||
+              (departureCountryCode
+                ? getISOCodeByName(departureCountryCode as CountryName)
+                : undefined);
             newDepartureAirportIata = {
               ...departure,
-              country: __countryCode,
+              country: getCountryName(departureCountryCode as CountryCode),
               longitude: Number(
-                allAirports[flight.departure.iata]?.longitude_deg,
+                allAirports[flight.departure.iata!]?.longitude_deg,
               ),
               latitude: Number(
-                allAirports[flight.departure.iata]?.latitude_deg,
+                allAirports[flight.departure.iata!]?.latitude_deg,
               ),
-              iso_country: allAirports[departure.iata]?.iso_country || (__countryCode ? getISOCodeByName(__countryCode as CountryName) : undefined),
+              iso_country: iso_country,
+              timezone:
+                departure.timezone ||
+                getTimezone(departure.timezone, iso_country),
             };
           }
 
           if (allAirports && arrival.iata && !arrival.country) {
-            const __countryCode = allAirports[arrival.iata]?.iso_country || arrival.iata;
+            const arrivalCountryCode = allAirports[arrival.iata]?.iso_country || arrival.iata;
+
+            const iso_country =
+              allAirports[arrival.iata]?.iso_country ||
+              (arrivalCountryCode
+                ? getISOCodeByName(arrivalCountryCode as CountryName)
+                : undefined);
             newArrival = {
               ...arrival,
-              country: __countryCode,
+              country: getCountryName(arrivalCountryCode as CountryCode),
               longitude: Number(allAirports[arrival.iata]?.longitude_deg),
               latitude: Number(allAirports[arrival.iata]?.latitude_deg),
-              iso_country: allAirports[arrival.iata]?.iso_country || (__countryCode ? getISOCodeByName(__countryCode as CountryName) : undefined),
+              iso_country:
+                allAirports[arrival.iata]?.iso_country ||
+                (arrivalCountryCode
+                  ? getISOCodeByName(arrivalCountryCode as CountryName)
+                  : undefined),
+              timezone:
+                departure.timezone ||
+                getTimezone(departure.timezone, iso_country),
             };
           }
 
@@ -117,7 +137,7 @@ export const useGetAllFlights = (
               airline: {
                 ...airline,
                 aircraft_model: getRandomAircraftModel(), // Assigning a random aircraft model for demonstration
-              }
+              },
             });
           }
           return acc;

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { FlightCard } from './FlightCard';
 import Filters from '../filters/Filters';
@@ -20,6 +20,9 @@ export const FlightList = () => {
   const currentlySelectedAirline = useAppSelector((state) => state.filters.currentlySelectedAirline);
 
   const [lastTimeUpdate, setLastTimeUpdate] = useState<Date | null>(null);
+
+  const isFromFilterCall = useRef(false);
+
   const {
     removeSearchParam,
     setFlight
@@ -81,6 +84,14 @@ export const FlightList = () => {
     });
   };
 
+  useEffect(() => {
+    if (isFromFilterCall.current) {
+      isFromFilterCall.current = false;
+      setFlight(filteredFlights[0]?.flight.number || '');
+    }
+  }, [fromSelectedCountry, filteredFlights, setFlight, currentlySelectedAirline]);
+  
+
   return (
     <div className="xs:w-full md:w-xs w-sm relative z-10">
       <Filters
@@ -88,11 +99,13 @@ export const FlightList = () => {
         setSelectedFromCountry={(selectedCountry) => {
           dispatch(addFromCountryFilter(selectedCountry));
           removeSearchParam();
+          isFromFilterCall.current = true;
         }}
         currentlySelectedAirline={currentlySelectedAirline}
         setCurrentlySelectedAirline={(selectedAirline) => {
           dispatch(addCurrentlySelectedAirlineFilter(selectedAirline));
           removeSearchParam();
+          isFromFilterCall.current = true;
         }}
       />
       <div className="absolute top-0 -right-16">

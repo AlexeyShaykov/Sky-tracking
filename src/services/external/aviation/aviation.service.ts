@@ -1,7 +1,7 @@
-import { API_KEY, API_URL } from './aviation.constants';
-import type { IGetAllFlightsRequestParams, TFlightsResponse } from './aviation.types';
-
-import { FLIGHTS } from '@/data/flights.data';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import shiftDatesToNow from '@/data/shiftDatesToNow';
+import { API_KEY, API_URL, MOCK_DATA } from './aviation.constants';
+import type { IFlightResponseData, IGetAllFlightsRequestParams, TFlightsResponse } from './aviation.types';
 
 const getAllFlights = async ({
   airline,
@@ -19,11 +19,13 @@ const getAllFlights = async ({
   url.searchParams.append('limit', limit.toString());
   url.searchParams.append('offset', offset.toString());
 
-  // return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve({ pagination: { limit, offset, total: FLIGHTS.length }, data: FLIGHTS });
-  //     }, 3000);
-  // });
+  const shifted = shiftDatesToNow(MOCK_DATA);
+
+  return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ pagination: { limit, offset, total: shifted.data.length }, data: shifted.data });
+      }, 3000);
+  });
 
   try {
     const response = await fetch(url.toString());
@@ -33,10 +35,10 @@ const getAllFlights = async ({
   } catch (error) {
     console.error('Error fetching flight data:', error);
     const pagination = {
-      pagination: { limit: 10, offset: 0, total: FLIGHTS.length }
+      pagination: { limit: 10, offset: 0, total: MOCK_DATA.data.length }
     }
     // Fallback to static data in case of an error
-    return { ...pagination, data: FLIGHTS };
+    return { ...pagination, data: MOCK_DATA.data };
   }
 
 };

@@ -1,6 +1,6 @@
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 
-import getRandomAircraftModel from './getRandomAircraftModel';
+import getRandomAircraftModel from '../../data/getRandomAircraftModel';
 
 const FlightInformation = ({ flight }: { flight: IFlightResponseData }) => {
    const {

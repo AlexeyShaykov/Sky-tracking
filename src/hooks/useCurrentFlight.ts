@@ -7,7 +7,7 @@ import { QUERY_PARAM_FLIGHT } from '@/components/flight-list/flight.constants';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { useGetAllFlights } from './useGetAllFlights';
 import useAppSelector from './useAppSelector';
-import { getCurrentCoordinates } from '@/data/flights.data';
+import { getCurrentCoordinates } from '@/data/getCurrentCoordinates';
 
 const INTERVAL_MS = 1000;
 const PROGRESS_STEP = 0.02;

@@ -18,60 +18,64 @@ const FilterWithSearch = ({
   onValueChange,
   entityName = 'Select',
 }: {
-  data: string[]
-  selectedValue: string | null
-  onValueChange: (value: string | null) => void
-  entityName?: string
+  data: string[];
+  selectedValue: string | null;
+  onValueChange: (value: string | null) => void;
+  entityName?: string;
 }) => {
   return (
     <Combobox
-        items={data}
-        defaultValue={entityName}
-        onValueChange={(value: string | null) => {
-          if (selectedValue === value) {
-            onValueChange(null);
-            return;
-          }
-          onValueChange(value === null ? null : value);
-        }}
-        isItemEqualToValue={(item) => item === selectedValue}
-      >
-        <ComboboxTrigger
-          render={
-            <Button
-              variant="outline"
-              className="w-[180px] justify-between font-normal"
-            >
-              <ComboboxValue>{selectedValue || `Select ${entityName}`}</ComboboxValue>
-              <ChevronDownIcon
-                data-slot="combobox-trigger-icon"
-                className="text-muted-foreground pointer-events-none size-4"
-              />
-            </Button>
-          }
-          className="w-[180px]"
-        />
-        <ComboboxContent
-          className="w-[180px]"
-        >
-          <ComboboxInput
-            showTrigger={false}
-            placeholder={`Search ${entityName}`}
-            showClear
-          />
-          <ComboboxEmpty>{`No ${entityName} found.`}</ComboboxEmpty>
-          <ComboboxList>
-            {(country) => (
-              <ComboboxItem
-                key={country}
-                value={country}
+      items={data}
+      defaultValue={entityName}
+      onValueChange={(value: string | null) => {
+        if (selectedValue === value) {
+          onValueChange(null);
+          return;
+        }
+        onValueChange(value === null ? null : value);
+      }}
+      isItemEqualToValue={(item) => item === selectedValue}
+    >
+      <ComboboxTrigger
+        render={
+          <Button
+            variant="outline"
+            className="w-45 justify-between font-normal"
+          >
+            <ComboboxValue>
+              <span
+                className="truncate"
               >
-                {country}
-              </ComboboxItem>
-            )}
-          </ComboboxList>
-        </ComboboxContent>
-      </Combobox>
+                {selectedValue || `Select ${entityName}`}
+              </span>
+            </ComboboxValue>
+            <ChevronDownIcon
+              data-slot="combobox-trigger-icon"
+              className="text-muted-foreground pointer-events-none size-4"
+            />
+          </Button>
+        }
+        className="w-45"
+      />
+      <ComboboxContent className="w-45">
+        <ComboboxInput
+          showTrigger={false}
+          placeholder={`Search ${entityName}`}
+          showClear
+        />
+        <ComboboxEmpty>{`No ${entityName} found.`}</ComboboxEmpty>
+        <ComboboxList>
+          {(country) => (
+            <ComboboxItem
+              key={country}
+              value={country}
+            >
+              {country}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   );
 };
 
