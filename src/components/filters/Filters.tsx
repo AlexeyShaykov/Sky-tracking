@@ -21,7 +21,7 @@ const Filters = ({
 
   const {
     data: allFlightsData,
-  } = useGetAllFlights(undefined, allAirports);
+  } = useGetAllFlights((undefined), allAirports);
 
   
   const fromCountries = useMemo(() => {

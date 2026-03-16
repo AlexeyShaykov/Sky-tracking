@@ -32,16 +32,18 @@ const useCurrentFlight = () => {
 
   const [flight, setCurrentFlight] = useState<IFlightResponseData | null>(null);
 
-  const {
-    data: allFlightsData,
-  } = useGetAllFlights(
-    undefined,
-    allAirports,
-  );
-
   const setFlight = (flightId: string) => {
    setSearchParams({ [QUERY_PARAM_FLIGHT]: flightId });
   };
+
+  const {
+    data: allFlightsData,
+  } = useGetAllFlights(
+    (__data: IFlightResponseData[]) => {
+      setFlight(__data[0]?.flight.number || '');
+    },
+    allAirports,
+  );
 
   const removeSearchParam = () => {
     searchParams.delete(QUERY_PARAM_FLIGHT);

@@ -36,11 +36,11 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
   const isSelected = selectedFlight && selectedFlight === id;
 
   const { municipality: fromCity } = useAppSelector(
-    (state) => state.airports.data[fromIata],
+    (state) => state.airports.data[fromIata!],
   ) || {};
 
   const { municipality: toCity } = useAppSelector(
-    (state) => state.airports.data[toIata],
+    (state) => state.airports.data[toIata!],
   ) || {};
 
   const logo = airlineIata
@@ -56,29 +56,32 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
           : 'bg-transparent',
       )}
     >
-      <FlightCardActions flightId={id} />
+      <FlightCardActions flightId={id || ''} />
       <button
         className={cn('bg-flight-card rounded-lg p-4  block w-full')}
         onClick={() => {
-          setSearchParams({ [QUERY_PARAM_FLIGHT]: id });
+          setSearchParams({ [QUERY_PARAM_FLIGHT]: id || '' });
         }}
       >
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-3">
-            {airlineIata ? (
-              <img
-                src={logo}
-                alt={id}
-                width={40}
-                height={40}
-                className="rounded-full bg-white"
-              />
-            ) : (
-              <Plane
-                size={40}
-                className="rounded-full bg-white p-1 fill-black"
-              />
-            )}
+            <div
+              className="w-10 h-10 flex items-center justify-center rounded-full overflow-hidden bg-white"
+            >
+              {airlineIata ? (
+                <img
+                  src={logo}
+                  alt={id || 'Flight Logo'}
+                  width={40}
+                  height={40}
+                />
+              ) : (
+                <Plane
+                  size={40}
+                  className=" p-1 fill-black"
+                />
+              )}
+            </div>
 
             <span>{id}</span>
           </div>
