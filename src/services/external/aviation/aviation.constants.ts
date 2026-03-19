@@ -44,14 +44,14 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "ASL Airlines Ireland",
-                "iata": "AG",
-                "icao": "ABR"
+                "name": "Qantas",
+                "iata": "QF",
+                "icao": "QFA"
             },
             "flight": {
                 "number": "7290",
-                "iata": "AG7290",
-                "icao": "ABR7290",
+                "iata": "QF7290",
+                "icao": "QFA7290",
                 "codeshared": null
             },
             "aircraft": {
@@ -95,14 +95,14 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "ASL Airlines Ireland",
-                "iata": "AG",
-                "icao": "ABR"
+                "name": "Rex Airlines",
+                "iata": "ZL",
+                "icao": "RXA"
             },
             "flight": {
                 "number": "7420",
-                "iata": "AG7420",
-                "icao": "ABR7420",
+                "iata": "ZL7420",
+                "icao": "RXA7420",
                 "codeshared": null
             },
             "aircraft": {
@@ -146,9 +146,9 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "empty",
-                "iata": null,
-                "icao": null
+                "name": "Sharp Airlines",
+                "iata": "SH",
+                "icao": "SHA"
             },
             "flight": {
                 "number": null,
@@ -248,14 +248,14 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "National Jet Express",
-                "iata": "WO",
-                "icao": "JTE"
+                "name": "Sharp Airlines",
+                "iata": "SH",
+                "icao": "SHA"
             },
             "flight": {
                 "number": "7488",
-                "iata": "WO7488",
-                "icao": "JTE7488",
+                "iata": "SH7488",
+                "icao": "SHA7488",
                 "codeshared": null
             },
             "aircraft": {
@@ -300,13 +300,13 @@ export const MOCK_DATA = {
             },
             "airline": {
                 "name": "FlyArystan",
-                "iata": "FS",
-                "icao": "AYN"
+                "iata": "KC",
+                "icao": "KZR"
             },
             "flight": {
                 "number": "7328",
-                "iata": "FS7328",
-                "icao": "AYN7328",
+                "iata": "KC7328",
+                "icao": "KZR7328",
                 "codeshared": null
             },
             "aircraft": {
@@ -466,14 +466,14 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "Private owner",
-                "iata": null,
-                "icao": null
+                "name": "United Airlines",
+                "iata": "UA",
+                "icao": "UAL"
             },
             "flight": {
                 "number": "4235",
-                "iata": null,
-                "icao": null,
+                "iata": "UA4235",
+                "icao": "UAL4235",
                 "codeshared": null
             },
             "aircraft": {
@@ -902,14 +902,14 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "Skyborne Airline Academy",
-                "iata": null,
-                "icao": "SFY"
+                "name": "British Airways",
+                "iata": "BA",
+                "icao": "BAW"
             },
             "flight": {
                 "number": "658",
-                "iata": null,
-                "icao": "SFY658",
+                "iata": "BA658",
+                "icao": "BAW658",
                 "codeshared": null
             },
             "aircraft": {
@@ -953,14 +953,14 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "Slovakia - Air Force",
-                "iata": null,
-                "icao": "SQF"
+                "name": "Bulgaria Air",
+                "iata": "FB",
+                "icao": "LZB"
             },
             "flight": {
                 "number": "102",
-                "iata": null,
-                "icao": "SQF102",
+                "iata": "FB102",
+                "icao": "LZB102",
                 "codeshared": null
             },
             "aircraft": {
@@ -1005,13 +1005,13 @@ export const MOCK_DATA = {
             },
             "airline": {
                 "name": "Thai Lion Air",
-                "iata": "SL",
-                "icao": "TLM"
+                "iata": "TG",
+                "icao": "THA"
             },
             "flight": {
                 "number": "545",
-                "iata": "SL545",
-                "icao": "TLM545",
+                "iata": "TG545",
+                "icao": "THA545",
                 "codeshared": null
             },
             "aircraft": {

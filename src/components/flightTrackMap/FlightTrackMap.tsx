@@ -183,7 +183,7 @@ const FlightTrackMap = () => {
       initialViewState={{
         longitude: snappedLongitude || INITIAL_CENTER[0],
         latitude: snappedLatitude || INITIAL_CENTER[1],
-        zoom: 6,
+        zoom: 3,
       }}
       style={{ width: '100%', height: '100vh' }}
       mapStyle={

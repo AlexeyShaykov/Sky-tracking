@@ -1,5 +1,4 @@
 import { useSearchParams } from 'react-router';
-import { Plane } from 'lucide-react';
 
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { cn } from '@/utils/cn';
@@ -8,6 +7,7 @@ import { QUERY_PARAM_FLIGHT } from './flight.constants';
 import FlightCardActions from './actions/FlightCardActions';
 import ProgressBar from '../custom-ui/ProgressBar';
 import useAppSelector from '@/hooks/useAppSelector';
+import { getLogoByAirline } from '@/data/getLogoPlaneByAirline';
 
 export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
   const {
@@ -28,7 +28,7 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
 
   const { registration: aircraftReg, icao24: aircraftIcao24 } = aircraft || {};
 
-  const { iata: airlineIata } = airline || {};
+  const { iata: airlineIata, name: airlineName, icao: airlineIcao } = airline || {};
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);
@@ -43,9 +43,9 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
     (state) => state.airports.data[toIata!],
   ) || {};
 
-  const logo = airlineIata
-    ? `https://content.airhex.com/content/logos/airlines_${airlineIata}_200_200_s.png`
-    : '/logos/swiss.svg';
+  const logo = airlineIcao
+    ? `https://cdn.jsdelivr.net/gh/sexym0nk3y/airline-logos@latest/logos/${airlineIcao}.png`
+    : '/logos/default-airline.svg';
 
   return (
     <div
@@ -68,19 +68,15 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
             <div
               className="w-10 h-10 flex items-center justify-center rounded-full overflow-hidden bg-white"
             >
-              {airlineIata ? (
-                <img
+              <img
                   src={logo}
                   alt={id || 'Flight Logo'}
                   width={40}
                   height={40}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = getLogoByAirline(airlineName || '');
+                  }}
                 />
-              ) : (
-                <Plane
-                  size={40}
-                  className=" p-1 fill-black"
-                />
-              )}
             </div>
 
             <span>{id}</span>

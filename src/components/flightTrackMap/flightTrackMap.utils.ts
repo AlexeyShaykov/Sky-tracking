@@ -8,7 +8,7 @@ import type { LayerProps } from 'react-map-gl/maplibre';
 
 import type { Theme } from '@/providers/theme/theme.context';
 
-export const INITIAL_CENTER = [32.45, 37.85];
+export const INITIAL_CENTER = [82, 20];
 
 export const routeSolidStyles = (theme: Theme): LayerProps => ({
   id: 'route-solid',

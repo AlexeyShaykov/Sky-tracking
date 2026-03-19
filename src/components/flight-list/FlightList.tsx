@@ -40,9 +40,9 @@ export const FlightList = () => {
     isLoading,
     refetch,
     isRefetching,
-  } = useGetAllFlights((__data: IFlightResponseData[]) => {
+  } = useGetAllFlights(() => {
     setLastTimeUpdate(new Date());
-    setFlight(__data[0]?.flight.number || '');
+    // setFlight(__data[0]?.flight.number || '');
   }, allAirports);
 
   useAircraftPhotos(allFlightsData?.data);

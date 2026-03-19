@@ -39,8 +39,8 @@ const useCurrentFlight = () => {
   const {
     data: allFlightsData,
   } = useGetAllFlights(
-    (__data: IFlightResponseData[]) => {
-      setFlight(__data[0]?.flight.number || '');
+    () => {
+      // setFlight(__data[0]?.flight.number || '');
     },
     allAirports,
   );
