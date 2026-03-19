@@ -887,14 +887,14 @@ export const MOCK_DATA = {
                 "actual_runway": "2026-03-03T08:03:00+00:00"
             },
             "arrival": {
-                "airport": "Vero Beach Municipal",
+                "airport": "Orlando Sanford International",
                 "timezone": "America/New_York",
-                "iata": "VRB",
-                "icao": "KVRB",
+                "iata": "SFB",
+                "icao": "KSFB",
                 "terminal": null,
                 "gate": null,
                 "baggage": null,
-                "scheduled": "2026-03-03T10:05:00+00:00",
+                "scheduled": "2026-03-03T10:50:00+00:00",
                 "delay": null,
                 "estimated": null,
                 "actual": null,
@@ -902,21 +902,21 @@ export const MOCK_DATA = {
                 "actual_runway": null
             },
             "airline": {
-                "name": "British Airways",
-                "iata": "BA",
-                "icao": "BAW"
+                "name": "Delta Airlines",
+                "iata": "DL",
+                "icao": "DAL"
             },
             "flight": {
                 "number": "658",
-                "iata": "BA658",
-                "icao": "BAW658",
+                "iata": "DL658",
+                "icao": "A74ECC",
                 "codeshared": null
             },
             "aircraft": {
                 "registration": null,
                 "iata": null,
                 "icao": null,
-                "icao24": "ABC7BA"
+                "icao24": "A63DFF"
             },
             "live": null
         },
@@ -958,16 +958,16 @@ export const MOCK_DATA = {
                 "icao": "LZB"
             },
             "flight": {
-                "number": "102",
-                "iata": "FB102",
-                "icao": "LZB102",
+                "number": "FB1833",
+                "iata": "FB1833",
+                "icao": "LZB1833",
                 "codeshared": null
             },
             "aircraft": {
                 "registration": null,
                 "iata": null,
                 "icao": null,
-                "icao24": "505F6E"
+                "icao24": "451D85"
             },
             "live": null
         },

@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router';
 
 
-import type { IFlightResponseData } from '@/services/external/opensky/opensky.types';
+import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 
 import { X } from '../animate-ui/icons/x';
 import { QUERY_PARAM_FLIGHT } from '../flight-list/flight.constants';

@@ -12,9 +12,9 @@ const FlightImage = ({ flight }: { flight: IFlightResponseData }) => {
   return (
     <div
       className="xs:h-56 xs:pt-21 w-full h-87.5 pt-28"
-      // style={{
-      //   background: `linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/planes/lufthansa.png') no-repeat center center / cover)`,
-      // }}
+      style={{
+        background: `linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/public/planes/lufthansa.png') no-repeat center center / cover)`,
+      }}
     >
       <img
           src={photo || __photo}

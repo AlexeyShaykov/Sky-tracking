@@ -29,6 +29,10 @@ const FlightTrackMap = () => {
   const fromSelectedCountry = useAppSelector((state) => state.filters.fromCountry);
   const currentlySelectedAirline = useAppSelector((state) => state.filters.currentlySelectedAirline);
 
+  const isShowRoute = useAppSelector(
+    (state) => state.flightActions.isShowRoute,
+  );
+
   const { theme } = useTheme();
 
   const mapRef = useRef<MapRef>(null);
@@ -169,7 +173,7 @@ const FlightTrackMap = () => {
     if (mapRef.current) {
       mapRef.current.flyTo({
         center: [snappedLongitude, snappedLatitude],
-        zoom: 6,
+        zoom: flight?.flight.number ? 6 : 3,
         speed: 1,
       });
     }
@@ -192,7 +196,7 @@ const FlightTrackMap = () => {
           : 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json'
       }
     >
-      {solidCoors.length === 2 && solidFeature && (
+      {solidCoors.length === 2 && solidFeature && isShowRoute && (
         <Source
           id="route-solid"
           type="geojson"
@@ -204,7 +208,7 @@ const FlightTrackMap = () => {
           <Layer {...routeSolidStyles(theme)} />
         </Source>
       )}
-      {dashedCoors.length === 2 && dashedFeature && (
+      {dashedCoors.length === 2 && dashedFeature && isShowRoute && (
         <Source
           id="route-dashed"
           type="geojson"

@@ -28,7 +28,7 @@ export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
 
   const { registration: aircraftReg, icao24: aircraftIcao24 } = aircraft || {};
 
-  const { iata: airlineIata, name: airlineName, icao: airlineIcao } = airline || {};
+  const { name: airlineName, icao: airlineIcao } = airline || {};
 
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);

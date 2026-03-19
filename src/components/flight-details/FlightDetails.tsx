@@ -55,10 +55,9 @@ export const FlightDetails = () => {
           <FlightInformation flight={flight} />
 
           <FlightActions
-            onRoute={() => {}}
             onFollow={() => {}}
-            onShare={() => {}}
             onMore={() => {}}
+            flight={flight}
           />
         </div>
       </m.aside>

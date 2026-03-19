@@ -38,7 +38,7 @@ const FlightInformation = ({ flight }: { flight: IFlightResponseData }) => {
           <div className="flex items-center gap-2">
             <img
               src={`https://flagcdn.com/24x18/${(iso_country as string).toLowerCase()}.png`}
-              alt={iata}
+              alt={iata || ''}
               width={24}
               height={18}
               className="inline-block mr-1"

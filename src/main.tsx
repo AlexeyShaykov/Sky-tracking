@@ -7,6 +7,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import { Toaster } from 'sonner';
 
 import { Home } from './screens/home';
 import { Layout } from './components/Layout';
@@ -43,6 +44,9 @@ createRoot(document.getElementById('root')!).render(
                 </Route>
               </Routes>
             </BrowserRouter>
+            <Toaster 
+              position="top-right"
+            />
           </Provider>
         </LazyMotion>
       </ThemeProvider>

@@ -182,7 +182,7 @@ const countries = {
   "UA": "Ukraine",
   "AE": "United Arab Emirates",
   "GB": "United Kingdom",
-  "US": "United States of America",
+  "US": "USA",
   "UY": "Uruguay",
   "UZ": "Uzbekistan",
   "VU": "Vanuatu",

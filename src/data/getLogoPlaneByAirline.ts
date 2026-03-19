@@ -127,11 +127,11 @@ const AIRLINE_LOGO_PLANES: {
 
 const getLogoPlaneByAirline = (airlineName: string | null) => {
   if (!airlineName) {
-    return '/planes/default-plane.svg';
+    return '/planes/default-airline-plane.svg';
   }
   const airline = AIRLINE_LOGO_PLANES.find((a) => a.name === airlineName);
   if (!airline) {
-    return '/logos/default-airline-plane.svg';
+    return '/planes/default-airline-plane.svg';
   }
   return airline.aircraft;
 };

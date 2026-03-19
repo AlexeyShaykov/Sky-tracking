@@ -9,7 +9,7 @@ import { useGetAllFlights } from './useGetAllFlights';
 import useAppSelector from './useAppSelector';
 import { getCurrentCoordinates } from '@/data/getCurrentCoordinates';
 
-const INTERVAL_MS = 1000;
+const INTERVAL_MS = 3000;
 const PROGRESS_STEP = 0.02;
 
 const lerp = (current: number, min: number, max: number, maxDelta: number) => {
