@@ -55,8 +55,6 @@ export const FlightDetails = () => {
           <FlightInformation flight={flight} />
 
           <FlightActions
-            onFollow={() => {}}
-            onMore={() => {}}
             flight={flight}
           />
         </div>
