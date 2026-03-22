@@ -16,7 +16,7 @@ const HeaderMenuItem = ({ item, isActive }: Props) => {
 				to={item.href}
 				className={cn(
 					'text-base transition-opacity hover:opacity-90 sm:text-base',
-					isActive ? 'opacity-100' : 'opacity-70'
+					isActive ? 'opacity-100 text-orange-400' : 'opacity-70'
 				)}
 			>
 				{item.label}

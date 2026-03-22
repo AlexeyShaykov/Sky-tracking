@@ -23,28 +23,32 @@ const Filters = ({
     data: allFlightsData,
   } = useGetAllFlights((undefined), allAirports);
 
+  const pagesFlightsData = useMemo(() => {
+    return allFlightsData?.pages.flatMap((page) => page.data) || [];
+  }, [allFlightsData]); 
+
   
   const fromCountries = useMemo(() => {
-    if (!allFlightsData) return [];
+    if (!pagesFlightsData.length) return [];
     
-    if (!currentlySelectedAirline && allFlightsData) {
-      return [...new Set(allFlightsData.data.map((flight) => flight.departure.country).filter(Boolean))];
+    if (!currentlySelectedAirline && pagesFlightsData.length) {
+      return [...new Set(pagesFlightsData.map((flight) => flight.departure.country).filter(Boolean))];
     }
-    const filteredFlights = allFlightsData.data.filter((flight) => flight.airline.name === currentlySelectedAirline);
+    const filteredFlights = pagesFlightsData.filter((flight) => flight.airline.name === currentlySelectedAirline);
 
     return [...new Set(filteredFlights.map((flight) => flight.departure.country).filter(Boolean))];
-  }, [currentlySelectedAirline, allFlightsData]);
+  }, [currentlySelectedAirline, pagesFlightsData]);
 
   const airlines = useMemo(() => {
-    if (!allFlightsData) return [];
+    if (!pagesFlightsData.length) return [];
 
     if (!fromCountry) {
-      return [...new Set(allFlightsData.data.map((flight) => flight.airline.name))];
+      return [...new Set(pagesFlightsData.map((flight) => flight.airline.name))];
     }
-    const filteredFlights = allFlightsData.data.filter((flight) => flight.departure.airport === fromCountry);
+    const filteredFlights = pagesFlightsData.filter((flight) => flight.departure.airport === fromCountry);
 
     return [...new Set(filteredFlights.map((flight) => flight.airline.name).filter(Boolean))];
-  }, [fromCountry, allFlightsData]);
+  }, [fromCountry, pagesFlightsData]);
 
   return (
     <div className="ml-1 flex items-center justify-between">

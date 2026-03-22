@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useSearchParams } from 'react-router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_PARAM_FLIGHT } from '@/components/flight-list/flight.constants';
@@ -45,6 +45,10 @@ const useCurrentFlight = () => {
     allAirports,
   );
 
+  const pagesFlightsData = useMemo(() => {
+      return allFlightsData?.pages.flatMap((page) => page.data) || [];
+    }, [allFlightsData]); 
+
   const removeSearchParam = () => {
     searchParams.delete(QUERY_PARAM_FLIGHT);
     setSearchParams(searchParams);
@@ -60,11 +64,11 @@ const useCurrentFlight = () => {
   // );
 
   useEffect(() => {
-    if (!allFlightsData?.data || !selectedFlight) {
+    if (!pagesFlightsData.length || !selectedFlight) {
       setCurrentFlight(null);
       return;
     }
-    const found = allFlightsData.data.find(
+    const found = pagesFlightsData.find(
       (f: IFlightResponseData) => f.flight.number === selectedFlight,
     );
 

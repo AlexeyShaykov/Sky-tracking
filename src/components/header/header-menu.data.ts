@@ -9,10 +9,6 @@ export const headerMenuData = [
 		href: '/'
 	},
 	{
-		label: 'Flights',
-		href: '/flights'
-	},
-	{
 		label: 'About',
 		href: '/about'
 	},

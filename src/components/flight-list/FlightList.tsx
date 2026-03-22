@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
+import debounce from 'debounce';
 
 import { FlightCard } from './FlightCard';
 import Filters from '../filters/Filters';
@@ -28,6 +30,8 @@ export const FlightList = () => {
 
   const [lastTimeUpdate, setLastTimeUpdate] = useState<Date | null>(new Date());
 
+  const { ref: loadMoreRef, inView } = useInView({ rootMargin: '100px' })
+
   const isFromFilterCall = useRef(false);
 
   const { removeSearchParam, setFlight } = useCurrentFlight();
@@ -40,19 +44,26 @@ export const FlightList = () => {
     isLoading,
     refetch,
     isRefetching,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage
   } = useGetAllFlights(() => {
     setLastTimeUpdate(new Date());
     // setFlight(__data[0]?.flight.number || '');
   }, allAirports);
 
-  useAircraftPhotos(allFlightsData?.data);
+  const pagesFlightsData = useMemo(() => {
+    return allFlightsData?.pages.flatMap((page) => page.data) || [];
+  }, [allFlightsData]); 
+
+  useAircraftPhotos(pagesFlightsData);
 
   const filteredFlights = useMemo(() => {
-    if (!allFlightsData?.data) return [];
+    if (!pagesFlightsData.length) return [];
     if (!fromSelectedCountry && !currentlySelectedAirline)
-      return allFlightsData?.data;
+      return pagesFlightsData;
 
-    return allFlightsData?.data.filter((flight) => {
+    return pagesFlightsData.filter((flight) => {
       const matchesFromCountry = fromSelectedCountry
         ? flight.departure.country === fromSelectedCountry
         : true;
@@ -61,13 +72,26 @@ export const FlightList = () => {
         : true;
       return matchesFromCountry && matchesAirline;
     });
-  }, [allFlightsData?.data, fromSelectedCountry, currentlySelectedAirline]);
+  }, [pagesFlightsData, fromSelectedCountry, currentlySelectedAirline]);
 
   const onRefreshFlightData = async () => {
     await refetch();
     removeSearchParam();
-    setFlight(allFlightsData?.data[0]?.flight.number || '');
   };
+
+  const onFetchMore = useCallback(() => {
+    debounce(() => {
+      console.log('Fetching more flights...');
+      fetchNextPage();
+    }, 300)();
+  }, [fetchNextPage]);
+
+  useEffect(() => {
+    console.log('inView:', inView, 'hasNextPage:', hasNextPage, 'isFetchingNextPage:', isFetchingNextPage);
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      onFetchMore();
+    }
+  }, [hasNextPage, inView, isFetchingNextPage, onFetchMore]);
 
   const renderContent = () => {
     if (isLoading || isRefetching) {
@@ -79,7 +103,7 @@ export const FlightList = () => {
       );
     }
 
-    if (allFlightsData?.data.length === 0) {
+    if (pagesFlightsData.length === 0) {
       return <div>No flights found.</div>;
     }
 
@@ -143,6 +167,11 @@ export const FlightList = () => {
       )}
       <div className="pt-3 space-y-4 overflow-y-scroll max-h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] pb-8">
         {renderContent()}
+        {isFetchingNextPage && (
+						<SkeletonLoader count={5} className='mb-4 h-40' />
+					)}
+
+				{!isFetchingNextPage && !isLoading && !isRefetching && <div ref={loadMoreRef} />}
       </div>
     </div>
   );

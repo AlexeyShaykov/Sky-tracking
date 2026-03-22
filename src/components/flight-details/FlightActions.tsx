@@ -43,6 +43,7 @@ const FlightActions = ({
 
       toast.success('Flight URL copied to clipboard!', {
         description: 'You can now share it with others.',
+        id: 'share-success',
       });
     } catch (err) {
       console.error('Error sharing:', err);
@@ -88,6 +89,7 @@ END:VCALENDAR
 
     toast.success('Flight added to calendar!', {
       description: 'The flight schedule has been added to your calendar.',
+      id: 'add-to-calendar-success',
     });
   };
 

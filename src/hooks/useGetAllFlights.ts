@@ -1,21 +1,43 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { getAllFlights } from '@/services/external/aviation/aviation.service';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { getCurrentCoordinates } from '@/data/getCurrentCoordinates';
 import type { Airport } from '@/store/airports/airports.slice';
 import getRandomAircraftModel from '@/data/getRandomAircraftModel';
-import { getCountryName, getISOCodeByName, type CountryCode, type CountryName } from '@/data/countries';
+import {
+  getCountryName,
+  getISOCodeByName,
+  type CountryCode,
+  type CountryName,
+} from '@/data/countries';
 import { getTimezone } from '@/data/getTimezone';
+import { MAX_PAGES } from '@/services/external/aviation/aviation.constants';
 
 export const useGetAllFlights = (
   afterFetchCallback?: (newData: IFlightResponseData[]) => void,
   allAirports?: Record<string, Airport>,
 ) => {
-  return useQuery({
-    queryKey: ['flights', null, null],
-    queryFn: async () => {
+  return useInfiniteQuery({
+    queryKey: ['flights'],
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const { limit, offset, total } = lastPage.pagination;
+      const nextOffset = offset + limit;
+
+      // либо данные кончились, либо достигли лимита страниц
+      if (nextOffset >= total || allPages.length >= MAX_PAGES) return undefined;
+
+      return nextOffset;
+    },
+    getPreviousPageParam: (firstPage: any) => {
+      const { limit, offset } = firstPage.pagination;
+      return offset > 0 ? Math.max(0, offset - limit) : undefined;
+    },
+    queryFn: async ({ pageParam }) => {
       const result = await getAllFlights({
         flight_status: 'active',
+        offset: pageParam,
       });
 
       const addedAircraftRegOrIcao24 = new Set<string>();
@@ -32,7 +54,8 @@ export const useGetAllFlights = (
           const progress = flight.progress || Math.floor(Math.random() * 99);
 
           if (allAirports && departure.iata && !departure.country) {
-            const departureCountryCode = allAirports[departure.iata]?.iso_country || departure.iata;
+            const departureCountryCode =
+              allAirports[departure.iata]?.iso_country || departure.iata;
 
             const iso_country =
               allAirports[departure.iata]?.iso_country ||
@@ -56,7 +79,8 @@ export const useGetAllFlights = (
           }
 
           if (allAirports && arrival.iata && !arrival.country) {
-            const arrivalCountryCode = allAirports[arrival.iata]?.iso_country || arrival.iata;
+            const arrivalCountryCode =
+              allAirports[arrival.iata]?.iso_country || arrival.iata;
 
             const iso_country =
               allAirports[arrival.iata]?.iso_country ||

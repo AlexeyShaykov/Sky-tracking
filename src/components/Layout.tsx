@@ -1,15 +1,21 @@
-import { Outlet } from 'react-router'
+import { Outlet } from 'react-router';
 import { useEffect, useState } from 'react';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 
-import Header from './header/Header'
+import Header from './header/Header';
 import { loadAirports } from '@/store/airports/airports.slice';
+import { Toaster } from 'sonner';
+import useTheme from '@/providers/theme/useTheme';
 
 export const Layout = () => {
   const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const {
+    theme,
+  } = useTheme();
 
   useEffect(() => {
     async function initialize() {
@@ -22,21 +28,18 @@ export const Layout = () => {
   }, [dispatch]);
 
   return (
-    <div
-      className="xs:p-3 relative p-7"
-    >
-      {
-        isLoading ? (
-          <div className="absolute inset-0 z-50 flex items-center justify-center">
-            <p className="text-lg font-semibold">Loading...</p>
-          </div>
-        ) : (
-          <>
-            <Header /> 
-            <Outlet />
-          </>
-        )
-      }
+    <div className="xs:p-3 relative p-7">
+      {isLoading ? (
+        <div className="absolute inset-0 z-50 flex items-center justify-center">
+          <p className="text-lg font-semibold">Loading...</p>
+        </div>
+      ) : (
+        <>
+          <Header />
+          <Outlet />
+        </>
+      )}
+      <Toaster position="top-right" theme={theme} />
     </div>
-  )
-}
+  );
+};

@@ -21,6 +21,15 @@ export const routeSolidStyles = (theme: Theme): LayerProps => ({
     'line-color':  theme === 'dark' ? '#73433F' : '#111',
     'line-width': 2,
     'line-opacity': 1,
+		'line-gradient': [
+			'interpolate',
+			['linear'],
+			['line-progress'],
+			0,
+			'#f43f5e',
+			1,
+			'#fb923c'
+		]
   },
 });
 
@@ -44,6 +53,7 @@ export const createSplitGreatCircle = (
 	to: [number, number],
 	current: [number, number]
 ) => {
+	console.log('Calculating split great circle with from:', from, 'to:', to, 'current:', current);
 	const fullLine = greatCircle(point(from), point(to), { npoints: 128 })
 	const coords = fullLine.geometry.coordinates
 
@@ -68,9 +78,21 @@ export const createSplitGreatCircle = (
 		snappedCoord[1] * (1 - BACK_SHIFT_RATIO) + prevCoord[1] * BACK_SHIFT_RATIO
 	]
 
+	const solidFeature = coords.slice(0, index + 1) as [number, number][];
+	const dashedFeature = coords.slice(index) as [number, number][];
+
+	if (solidFeature.length < 2 || dashedFeature.length < 2) {
+		return {
+			solidFeature: null,
+			dashedFeature: null,
+			snappedPoint: null,
+			bearing: 0,
+		};
+	}
+
 	return {
-		solidFeature: lineString(coords.slice(0, index + 1) as [number, number][]),
-		dashedFeature: lineString(coords.slice(index) as [number, number][]),
+		solidFeature: lineString(solidFeature),
+		dashedFeature: lineString(dashedFeature),
 		snappedPoint: offsetPoint,
 		bearing: turfBearing(snappedCoord, nextCoord)
 	}

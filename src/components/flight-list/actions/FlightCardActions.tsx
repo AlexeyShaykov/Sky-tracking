@@ -21,11 +21,9 @@ const FlightCardActions = ({ flightId }: { flightId: string }) => {
 
   return (
     <div
-      className="xs:h-auto xs:w-full xs:origin-bottom xs:right-1 xs:top-1 xs:group-hover:right-auto xs:group-hover:-top-10
-      xs:flex-row xs:justify-end xs:px-0
-      absolute top-0.5 right-1 group-hover:-right-14 px-3 
-      scale-0 group-hover:scale-100 h-full origin-top-right
-      flex flex-col transition-all opacity-0 group-hover:opacity-100 duration-500"
+      className={
+				'xs:h-auto xs:w-full xs:origin-bottom-right xs:right-0 xs:top-1 xs:justify-end xs:flex-row xs:group-hover:right-auto xs:group-hover:-top-10 xs:px-1 absolute top-0.5 right-2 z-50 flex h-full w-10 origin-top-right scale-0 flex-col gap-2 px-3 opacity-0 transition-all duration-500 group-hover:right-3 group-hover:scale-100 group-hover:opacity-100'
+			}
     >
       <Button
         type="button"

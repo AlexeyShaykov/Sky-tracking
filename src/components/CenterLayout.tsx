@@ -1,11 +1,15 @@
-import { Outlet } from 'react-router'
+import type { ReactNode } from 'react'
 
-export const CenterLayout = () => {
+export const CenterLayout = ({
+  children,
+}: {
+  children: ReactNode
+}) => {
   return (
     <div
       className="mt-24"
     >
-      <Outlet />
+      {children}
     </div>
   )
 }

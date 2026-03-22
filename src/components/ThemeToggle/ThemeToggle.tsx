@@ -12,8 +12,7 @@ const ThemeToggle = () => {
       className=""
     >
       <Button
-        type='button'
-        variant='secondary'
+        variant={'secondary'}
         size='icon'
         onClick={toggleTheme}
       >

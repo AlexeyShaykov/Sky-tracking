@@ -47,16 +47,20 @@ const FlightTrackMap = () => {
     data: allFlightsData,
   } = useGetAllFlights(undefined, allAirports);
 
-  const filteredFlights = useMemo(() => {
-    if (!allFlightsData?.data) return [];
-    if (!fromSelectedCountry && !currentlySelectedAirline) return allFlightsData?.data;
+  const pagesFlightsData = useMemo(() => {
+    return allFlightsData?.pages.flatMap((page) => page.data) || [];
+  }, [allFlightsData]); 
 
-    return allFlightsData?.data.filter((flight) => {
+  const filteredFlights = useMemo(() => {
+    if (!pagesFlightsData.length) return [];
+    if (!fromSelectedCountry && !currentlySelectedAirline) return pagesFlightsData;
+
+    return pagesFlightsData.filter((flight) => {
       const matchesFromCountry = fromSelectedCountry ? flight.departure.country === fromSelectedCountry : true;
       const matchesAirline = currentlySelectedAirline ? flight.airline.name === currentlySelectedAirline : true;
       return matchesFromCountry && matchesAirline;
     });
-  }, [allFlightsData?.data, fromSelectedCountry, currentlySelectedAirline]); 
+  }, [pagesFlightsData, fromSelectedCountry, currentlySelectedAirline]); 
 
   const {
     longitude,
@@ -204,6 +208,7 @@ const FlightTrackMap = () => {
             type: 'FeatureCollection',
             features: [solidFeature],
           }}
+          lineMetrics
         >
           <Layer {...routeSolidStyles(theme)} />
         </Source>
@@ -216,6 +221,7 @@ const FlightTrackMap = () => {
             type: 'FeatureCollection',
             features: [dashedFeature],
           }}
+          lineMetrics
         >
           <Layer {...routeDashedStyles(theme)} />
         </Source>

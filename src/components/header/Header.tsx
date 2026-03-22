@@ -42,7 +42,7 @@ const Header = () => {
 						to='/favorites'
 					//  className='bg-card flex items-center justify-center rounded-full p-2 transition-colors hover:bg-neutral-700 sm:p-1'
 					>
-						<Heart size={23} animateOnHover />
+						<Heart size={23} animateOnHover animateOnTap />
 					</Link>
 				</Button>
 				<ThemeToggle />

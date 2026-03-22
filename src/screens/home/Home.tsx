@@ -3,7 +3,7 @@ import { FlightList } from '@/components/flight-list'
 import { FlightDetails } from '@/components/flight-details/FlightDetails'
 import FlightTrackMap from '@/components/flightTrackMap/FlightTrackMap'
 
-export const Home = () => {
+const Home = () => {
   return (
     <>
     <FlightList />
@@ -15,4 +15,6 @@ export const Home = () => {
     </div>
     </>
   )
-}
+};
+
+export default Home
