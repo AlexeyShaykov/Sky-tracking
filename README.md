@@ -22,16 +22,17 @@
 
 ---
 
+
 ## 📸 Screenshots
 
 <!-- TODO: Add main map view screenshot here -->
-> `./assets/1.png`
+> <img src="./assets/images/1.png" width=300>
 
 <!-- TODO: Add flight list + detail panel screenshot here -->
-> `./assets/2.png`
+> <img src="./assets/images/2.png" width=300>
 
 <!-- TODO: Add mobile view screenshot here -->
-> `./assets/3.png`
+> <img src="./assets/images/3.png" width=300>
 
 ---
 
