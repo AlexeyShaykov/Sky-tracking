@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 import { useSearchParams } from 'react-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_PARAM_FLIGHT } from '@/components/flight-list/flight.constants';
@@ -17,11 +17,18 @@ const lerp = (current: number, min: number, max: number, maxDelta: number) => {
   return Math.min(max, Math.max(min, current + delta));
 };
 
-const useCurrentFlight = () => {
+const useCurrentFlight = (setLastTimeUpdate?: Dispatch<SetStateAction<Date | null>>) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const selectedFlight = searchParams.get(QUERY_PARAM_FLIGHT);
   const allAirports = useAppSelector((state) => state.airports.data);
   const queryClient = useQueryClient();
+
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+
+  const isFollowPlane = useAppSelector(
+    (state) => state.flightActions.isFollowPlane,
+  );
 
   const progressRef = useRef<number | null>(null);
   const liveRef = useRef({
@@ -81,14 +88,15 @@ const useCurrentFlight = () => {
     }
 
     setCurrentFlight(found ?? null);
-  }, [allFlightsData, selectedFlight]);
+  }, [allFlightsData, pagesFlightsData, selectedFlight]);
 
   useEffect(() => {
     if (!selectedFlight) return;
+    if (!isFollowPlane) return;
 
     progressRef.current = null;
 
-    const interval = setInterval(() => {
+    intervalRef.current = setInterval(() => {
       setCurrentFlight((prev) => {
         if (!prev) return prev;
 
@@ -125,9 +133,11 @@ const useCurrentFlight = () => {
           },
         };
 
+        setLastTimeUpdate?.(new Date());
+
         // обновляем и в общем кэше
         queryClient.setQueryData(
-          ['flights', null, null],
+          ['flights'],
           (old: { data: IFlightResponseData[] } | undefined) => {
             if (!old?.data) return old;
             return {
@@ -143,8 +153,15 @@ const useCurrentFlight = () => {
       });
     }, INTERVAL_MS);
 
-    return () => clearInterval(interval);
-  }, [selectedFlight, queryClient]);
+    return () => clearInterval(intervalRef.current!);
+  }, [selectedFlight, queryClient, setLastTimeUpdate, isFollowPlane]);
+
+  useEffect(() => {
+    if (isFollowPlane) return;
+
+    progressRef.current = null;
+    clearInterval(intervalRef.current!);
+  }, [isFollowPlane]);
 
 
   return { flight, setFlight, removeSearchParam };

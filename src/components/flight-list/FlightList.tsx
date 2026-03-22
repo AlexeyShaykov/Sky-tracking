@@ -38,7 +38,7 @@ export const FlightList = () => {
 
   const isFromFilterCall = useRef(false);
 
-  const { removeSearchParam, setFlight } = useCurrentFlight();
+  const { removeSearchParam, setFlight } = useCurrentFlight(setLastTimeUpdate);
 
   const allAirports = useAppSelector((state) => state.airports.data);
   const dispatch = useAppDispatch();

@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import useAppDispatch from '@/hooks/useAppDispatch';
 import useAppSelector from '@/hooks/useAppSelector';
 
-import { toggleShowRoute } from '@/store/flight-actions/flight-action.slice';
+import { toggleShowRoute, toggleFollowPlane } from '@/store/flight-actions/flight-action.slice';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import formatIscDate from '@/utils/format-isc-date';
 
@@ -15,10 +15,8 @@ import { SquareArrowOutUpRight } from '../animate-ui/icons/square-arrow-out-up-r
 import { QUERY_PARAM_FLIGHT } from '../flight-list/flight.constants';
 
 const FlightActions = ({
-  onFollow,
   flight,
 }: {
-  onFollow: () => void;
   flight: NonNullable<IFlightResponseData>;
 }) => {
    const { flight: flightInfo, departure, arrival } = flight;
@@ -31,8 +29,16 @@ const FlightActions = ({
     (state) => state.flightActions.isShowRoute,
   );
 
+  const isFollowPlane = useAppSelector(
+    (state) => state.flightActions.isFollowPlane,
+  );
+
   const onRoute = () => {
     dispatch(toggleShowRoute(!isShowRoute));
+  };
+
+  const onFollow = () => {
+    dispatch(toggleFollowPlane(!isFollowPlane));
   };
 
   const onShare = async () => {
@@ -108,7 +114,10 @@ END:VCALENDAR
         </button>
         <button
           onClick={onFollow}
-          className="flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element transition-colors hover:bg-card/60"
+          className={cn(
+            'flex flex-col items-center gap-2 bg-card px-mini-element py-mini-element transition-colors hover:bg-card/60',
+            { 'bg-[#ddd] dark:bg-[#282828] hover:bg-[#ddd]/70 dark:hover:bg-[#282828]/70': isFollowPlane },
+          )}
         >
           <MapPin
             animateOnHover
