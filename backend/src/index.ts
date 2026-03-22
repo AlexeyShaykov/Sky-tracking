@@ -1,43 +1,37 @@
-import dotenv from 'dotenv';
+import * as trpcExpress from '@trpc/server/adapters/express'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+import morgan from 'morgan'
 
-dotenv.config();
+import { appRouter } from './trpc'
 
-import express from 'express';
-import cors from 'cors';
-import { createServer } from 'http';
-import OpenSkyService from './services/opensky/opensky.service';
+dotenv.config()
 
-const app = express();
-const PORT = process.env.PORT || 5174;
-const server = createServer(app);
+const app = express()
+const PORT = process.env.PORT || 5174
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-  credentials: true,
-}));
-app.use(express.json());
+app.use(morgan('dev'))
+app.use(
+	cors({
+		origin: ['http://localhost:5173', 'http://localhost:4173'],
+		credentials: true
+	})
+)
+app.use(express.json())
 
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.use(
+	'/trpc',
+	trpcExpress.createExpressMiddleware({
+		router: appRouter,
+		createContext: () => ({}),
+		onError({ error, path }) {
+			console.error(`❌ tRPC error on ${path}:`, error)
+		}
+	})
+)
 
-// test endpoint
-app.get('/api/getOpenSkyToken', async (req, res) => {
-  try {
-    const token = await OpenSkyService.getToken();
-    res.json({ token });
-  } catch (error) {
-    console.error('Error fetching OpenSky token:', error);
-    res.status(500).json({ error: 'Failed to fetch OpenSky token' });
-  }
-});
-
-app.get('/api/fetchLiveFlights', async (req, res) => {
-  try {
-    const flights = await OpenSkyService.fetchLiveFlights();
-    res.json({ flights });
-  } catch (error) {
-    console.error('Error fetching live flights:', error);
-    res.status(500).json({ error: 'Failed to fetch live flights' });
-  }
-});
+app.listen(PORT, () => {
+	console.log(`🚀 tRPC server: http://localhost:${PORT}/trpc`)
+	console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`)
+})
