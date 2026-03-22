@@ -25,14 +25,8 @@
 
 ## 📸 Screenshots
 
-<!-- TODO: Add main map view screenshot here -->
-> <img src="./assets/1.png" width=300>
-
-<!-- TODO: Add flight list + detail panel screenshot here -->
-> <img src="./assets/2.png" width=300>
-
-<!-- TODO: Add mobile view screenshot here -->
-> <img src="./assets/3.png" width=300>
+> <img src="./assets/1.png" width=300> <img src="./assets/2.png" width=300>
+> <img src="./assets/3.png" width=500>
 
 ---
 
