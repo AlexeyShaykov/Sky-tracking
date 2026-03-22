@@ -90,10 +90,11 @@ export const FlightList = () => {
   }, [fetchNextPage]);
 
   useEffect(() => {
+    if (currentlySelectedAirline && fromSelectedCountry) return;
     if (inView && hasNextPage && !isFetchingNextPage) {
       onFetchMore();
     }
-  }, [hasNextPage, inView, isFetchingNextPage, onFetchMore]);
+  }, [currentlySelectedAirline, fromSelectedCountry, hasNextPage, inView, isFetchingNextPage, onFetchMore]);
 
   const renderContent = () => {
     if (!isShowList) return null;
