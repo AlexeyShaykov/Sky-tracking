@@ -51,7 +51,7 @@ const Filters = ({
   }, [fromCountry, pagesFlightsData]);
 
   return (
-    <div className="ml-1 flex items-center justify-between">
+    <div className="xs:gap-2 xs:ml-0 xs:flex xs:justify-center xs:flex-wrap xs:w-11/12 ml-1 grid grid-cols-2 gap-3">
       <FilterWithSearch 
         data={fromCountries as string[]}
         selectedValue={fromCountry}

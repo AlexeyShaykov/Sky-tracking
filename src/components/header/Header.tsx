@@ -7,6 +7,8 @@ import { Heart } from '../animate-ui/icons/heart'
 import HeaderMenuItem from './HeaderMenuItem'
 import { headerMenuData } from './header-menu.data'
 import { Button } from '../animate-ui/components/buttons/button';
+import { PAGES } from '@/config/pages.config'
+import { AnimateIcon } from '../animate-ui/icons/icon'
 
 const Header = () => {
 	const location = useLocation()
@@ -32,17 +34,17 @@ const Header = () => {
 				</nav>
 			</div>
 			<div className='xs:mt-2 flex items-center gap-3 sm:gap-2'>
-				{/* TODO: Config */}
 				<Button 
 					asChild
 					variant='secondary'
 					size='icon'
 				>
 					<Link
-						to='/favorites'
-					//  className='bg-card flex items-center justify-center rounded-full p-2 transition-colors hover:bg-neutral-700 sm:p-1'
+						to={PAGES.FAVORITES}
 					>
-						<Heart size={23} animateOnHover animateOnTap />
+						<AnimateIcon animateOnHover>
+							<Heart size={23} />
+						</AnimateIcon>
 					</Link>
 				</Button>
 				<ThemeToggle />

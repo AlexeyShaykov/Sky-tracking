@@ -53,7 +53,6 @@ export const createSplitGreatCircle = (
 	to: [number, number],
 	current: [number, number]
 ) => {
-	console.log('Calculating split great circle with from:', from, 'to:', to, 'current:', current);
 	const fullLine = greatCircle(point(from), point(to), { npoints: 128 })
 	const coords = fullLine.geometry.coordinates
 

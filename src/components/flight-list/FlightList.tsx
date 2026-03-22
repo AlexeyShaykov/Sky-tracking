@@ -19,6 +19,8 @@ import {
   addFromCountryFilter,
 } from '@/store/filters/filters.slice';
 import { useAircraftPhotos } from '@/hooks/useAircraftPhotos';
+import { ArrowDown } from '../animate-ui/icons/arrow-down';
+import { ArrowUp } from '../animate-ui/icons/arrow-up';
 
 export const FlightList = () => {
   const fromSelectedCountry = useAppSelector(
@@ -30,7 +32,9 @@ export const FlightList = () => {
 
   const [lastTimeUpdate, setLastTimeUpdate] = useState<Date | null>(new Date());
 
-  const { ref: loadMoreRef, inView } = useInView({ rootMargin: '100px' })
+  const [isShowList, setIsShowList] = useState(true);
+
+  const { ref: loadMoreRef, inView } = useInView({ rootMargin: '100px' });
 
   const isFromFilterCall = useRef(false);
 
@@ -46,7 +50,7 @@ export const FlightList = () => {
     isRefetching,
     hasNextPage,
     isFetchingNextPage,
-    fetchNextPage
+    fetchNextPage,
   } = useGetAllFlights(() => {
     setLastTimeUpdate(new Date());
     // setFlight(__data[0]?.flight.number || '');
@@ -54,7 +58,7 @@ export const FlightList = () => {
 
   const pagesFlightsData = useMemo(() => {
     return allFlightsData?.pages.flatMap((page) => page.data) || [];
-  }, [allFlightsData]); 
+  }, [allFlightsData]);
 
   useAircraftPhotos(pagesFlightsData);
 
@@ -81,19 +85,19 @@ export const FlightList = () => {
 
   const onFetchMore = useCallback(() => {
     debounce(() => {
-      console.log('Fetching more flights...');
       fetchNextPage();
     }, 300)();
   }, [fetchNextPage]);
 
   useEffect(() => {
-    console.log('inView:', inView, 'hasNextPage:', hasNextPage, 'isFetchingNextPage:', isFetchingNextPage);
     if (inView && hasNextPage && !isFetchingNextPage) {
       onFetchMore();
     }
   }, [hasNextPage, inView, isFetchingNextPage, onFetchMore]);
 
   const renderContent = () => {
+    if (!isShowList) return null;
+
     if (isLoading || isRefetching) {
       return (
         <SkeletonLoader
@@ -147,15 +151,24 @@ export const FlightList = () => {
               isFromFilterCall.current = true;
             }}
           />
-          <div className="absolute top-0 -right-16">
+          <div className="xs:right-0 xs:space-y-2 absolute top-0 -right-12.5">
             <Button
               onClick={onRefreshFlightData}
               disabled={isRefetching}
-              variant="outline"
+              variant="secondary"
+              className="xs:size-8 xs:mt-0.5"
             >
               <AnimateIcon animateOnHover>
                 <RefreshCcw />
               </AnimateIcon>
+            </Button>
+
+            <Button
+              onClick={() => setIsShowList(!isShowList)}
+              variant="secondary"
+              className="xs:size-8 xs:flex hidden items-center justify-center"
+            >
+              {isShowList ? <ArrowDown /> : <ArrowUp />}
             </Button>
           </div>
           {lastTimeUpdate && (
@@ -165,13 +178,18 @@ export const FlightList = () => {
           )}
         </>
       )}
-      <div className="pt-3 space-y-4 overflow-y-scroll max-h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] pb-8">
+      <div className="pt-3 space-y-4 overflow-y-scroll max-h-[calc(100vh-4rem)] min-h-[calc(100vh-4rem)] pb-8 xs:pt-6">
         {renderContent()}
         {isFetchingNextPage && (
-						<SkeletonLoader count={5} className='mb-4 h-40' />
-					)}
+          <SkeletonLoader
+            count={5}
+            className="mb-4 h-40"
+          />
+        )}
 
-				{!isFetchingNextPage && !isLoading && !isRefetching && <div ref={loadMoreRef} />}
+        {!isFetchingNextPage && !isLoading && !isRefetching && (
+          <div ref={loadMoreRef} />
+        )}
       </div>
     </div>
   );
