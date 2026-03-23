@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import shiftDatesToNow from '@/data/shiftDatesToNow';
+
 import { API_KEY, API_URL, MOCK_DATA } from './aviation.constants';
 import type { IGetAllFlightsRequestParams, TFlightsResponse } from './aviation.types';
 

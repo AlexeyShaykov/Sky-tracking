@@ -1,6 +1,7 @@
 import { Plane } from 'lucide-react'
 
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
+
 import getUTCOffsetTimeZone from '../../data/getUTCOffsetTimeZone';
 
 const FlightRoute = ({

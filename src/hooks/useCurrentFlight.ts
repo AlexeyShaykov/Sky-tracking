@@ -5,9 +5,10 @@ import { useQueryClient } from '@tanstack/react-query';
 
 import { QUERY_PARAM_FLIGHT } from '@/components/flight-list/flight.constants';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
+import { getCurrentCoordinates } from '@/data/getCurrentCoordinates';
+
 import { useGetAllFlights } from './useGetAllFlights';
 import useAppSelector from './useAppSelector';
-import { getCurrentCoordinates } from '@/data/getCurrentCoordinates';
 
 const INTERVAL_MS = 3000;
 const PROGRESS_STEP = 0.02;

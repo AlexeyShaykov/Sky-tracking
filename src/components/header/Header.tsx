@@ -1,14 +1,16 @@
 import { match } from 'path-to-regexp'
 import { Link, useLocation } from 'react-router'
 
+import { PAGES } from '@/config/pages.config'
+
 import ThemeToggle from '../ThemeToggle/ThemeToggle'
 import { Heart } from '../animate-ui/icons/heart'
 
+import { Button } from '../animate-ui/components/buttons/button';
+import { AnimateIcon } from '../animate-ui/icons/icon'
+
 import HeaderMenuItem from './HeaderMenuItem'
 import { headerMenuData } from './header-menu.data'
-import { Button } from '../animate-ui/components/buttons/button';
-import { PAGES } from '@/config/pages.config'
-import { AnimateIcon } from '../animate-ui/icons/icon'
 
 const Header = () => {
 	const location = useLocation()

@@ -1,12 +1,13 @@
 import { Outlet } from 'react-router';
 import { useEffect, useState } from 'react';
+import { Toaster } from 'sonner';
 
 import useAppDispatch from '@/hooks/useAppDispatch';
 
-import Header from './header/Header';
 import { loadAirports } from '@/store/airports/airports.slice';
-import { Toaster } from 'sonner';
 import useTheme from '@/providers/theme/useTheme';
+
+import Header from './header/Header';
 
 export const Layout = () => {
   const dispatch = useAppDispatch();

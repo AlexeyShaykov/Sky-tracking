@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/refs */
-/* eslint-disable react-hooks/set-state-in-effect */
+import { useMemo, useRef } from 'react';
+
 import type {
   IFlightResponseData,
   IFlightResponseLive,
 } from '@/services/external/aviation/aviation.types';
-import { useMemo, useRef } from 'react';
+
+import { getFlightProgress } from '@/data/getFlightProgress';
 
 import ProgressBar from '../custom-ui/ProgressBar';
-import { getFlightProgress } from '@/data/getFlightProgress';
 
 const FlightStatus = ({
   progress,

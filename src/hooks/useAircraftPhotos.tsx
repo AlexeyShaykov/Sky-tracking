@@ -1,6 +1,6 @@
-// hooks/useAircraftPhotos.ts
 import { useEffect, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { fetchAircraftPhoto } from '@/services/external/planespotters/planespotters.service';
 

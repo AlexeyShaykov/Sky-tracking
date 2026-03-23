@@ -3,11 +3,15 @@ import { useEffect, useMemo, useRef } from 'react';
 import Map, { Layer, Marker, Source } from 'react-map-gl/maplibre';
 import { MapPin, Plane } from 'lucide-react';
 import type { MapRef } from 'react-map-gl/maplibre';
-
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 import useCurrentFlight from '@/hooks/useCurrentFlight';
+import useAppSelector from '@/hooks/useAppSelector';
+import { useGetAllFlights } from '@/hooks/useGetAllFlights';
+
 import useTheme from '@/providers/theme/useTheme';
+
+import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 
 import {
   createSplitGreatCircle,
@@ -16,10 +20,6 @@ import {
   routeSolidStyles,
 } from './flightTrackMap.utils';
 
-import useAppSelector from '@/hooks/useAppSelector';
-import { useGetAllFlights } from '@/hooks/useGetAllFlights';
-
-import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { getCurrentCoordinates } from '../../data/getCurrentCoordinates';
 
 

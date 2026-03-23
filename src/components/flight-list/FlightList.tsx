@@ -2,25 +2,30 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import debounce from 'debounce';
 
-import { FlightCard } from './FlightCard';
-import Filters from '../filters/Filters';
-import SkeletonLoader from '../custom-ui/SkeletonLoader';
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
-import { AnimateIcon } from '../animate-ui/icons/icon';
-import { RefreshCcw } from '../animate-ui/icons/refresh-ccw';
-import { formatDate } from '../../data/format-date';
-import { Button } from '../ui/button';
-import { useGetAllFlights } from '@/hooks/useGetAllFlights';
-import useCurrentFlight from '@/hooks/useCurrentFlight';
-import useAppSelector from '@/hooks/useAppSelector';
-import useAppDispatch from '@/hooks/useAppDispatch';
 import {
   addCurrentlySelectedAirlineFilter,
   addFromCountryFilter,
 } from '@/store/filters/filters.slice';
+
+import { useGetAllFlights } from '@/hooks/useGetAllFlights';
+import useCurrentFlight from '@/hooks/useCurrentFlight';
+import useAppSelector from '@/hooks/useAppSelector';
+import useAppDispatch from '@/hooks/useAppDispatch';
 import { useAircraftPhotos } from '@/hooks/useAircraftPhotos';
+
+import Filters from '../filters/Filters';
+import SkeletonLoader from '../custom-ui/SkeletonLoader';
+
+import { AnimateIcon } from '../animate-ui/icons/icon';
+import { RefreshCcw } from '../animate-ui/icons/refresh-ccw';
 import { ArrowDown } from '../animate-ui/icons/arrow-down';
 import { ArrowUp } from '../animate-ui/icons/arrow-up';
+
+import { formatDate } from '../../data/format-date';
+import { Button } from '../ui/button';
+
+import { FlightCard } from './FlightCard';
 
 export const FlightList = () => {
   const fromSelectedCountry = useAppSelector(

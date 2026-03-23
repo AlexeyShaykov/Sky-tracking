@@ -1,5 +1,7 @@
 import { AnimatePresence, m } from 'framer-motion';
 
+import useCurrentFlight from '@/hooks/useCurrentFlight';
+
 import FlightHeader from './FlightHeader';
 import FlightImage from './FlightImage';
 import FlightInformation from './FlightInformation';
@@ -7,7 +9,6 @@ import FlightRoute from './FlightRoute';
 import FlightStatus from './FlightStatus';
 import FlightSchedule from './FlightSchedule';
 import FlightActions from './FlightActions';
-import useCurrentFlight from '@/hooks/useCurrentFlight';
 
 export const FlightDetails = () => {
   const {

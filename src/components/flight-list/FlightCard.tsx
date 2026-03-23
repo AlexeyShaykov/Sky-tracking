@@ -2,12 +2,12 @@ import { useSearchParams } from 'react-router';
 
 import type { IFlightResponseData } from '@/services/external/aviation/aviation.types';
 import { cn } from '@/utils/cn';
+import useAppSelector from '@/hooks/useAppSelector';
+import { getLogoByAirline } from '@/data/getLogoPlaneByAirline';
 
 import { QUERY_PARAM_FLIGHT } from './flight.constants';
 import FlightCardActions from './actions/FlightCardActions';
 import ProgressBar from '../custom-ui/ProgressBar';
-import useAppSelector from '@/hooks/useAppSelector';
-import { getLogoByAirline } from '@/data/getLogoPlaneByAirline';
 
 export const FlightCard = ({ flight }: { flight: IFlightResponseData }) => {
   const {
